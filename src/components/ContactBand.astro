@@ -1,0 +1,46 @@
+---
+import { WHATSAPP_LINK, CALENDLY_LINK } from "../data/content";
+
+interface Props {
+  title?: string;
+  lede?: string;
+}
+
+const {
+  title = "Ready for consistent social media management?",
+  lede = "Book a 30 minute strategy call on Calendly, or message us on WhatsApp with your Instagram link for a quick audit.",
+} = Astro.props;
+---
+
+<section class="section final-cta">
+  <div class="container">
+    <div class="cta-panel" data-reveal>
+      <div>
+        <p class="eyebrow">Next step</p>
+        <h2 class="display-sm">{title}</h2>
+        <p class="lede">{lede}</p>
+      </div>
+      <div class="cta-form" style="align-content:center; gap: 0.75rem;">
+        <a
+          class="pill pill-yellow"
+          href={CALENDLY_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          style="justify-content:center;width:100%"
+        >
+          Book a 30 Min Meeting <span class="arrow">↗</span>
+        </a>
+        <a
+          class="pill pill-teal"
+          href={WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          style="justify-content:center;width:100%"
+        >
+          WhatsApp us <span class="arrow">↗</span>
+        </a>
+        <p class="form-note">Or visit the <a class="wa-link" href="/contact">contact page</a></p>
+      </div>
+    </div>
+  </div>
+</section>

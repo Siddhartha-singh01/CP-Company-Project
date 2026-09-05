@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactBand from "../components/ContactBand.astro";
+import InstaCard from "../components/InstaCard.astro";
+---
+
+<BaseLayout
+  title="Creators Network | ScaleUpSocial Content Creation"
+  description="Vetted creator partners for high converting UGC, product unboxings, and authoritative brand Reels used in ScaleUpSocial workflows."
+  activePath="/creators"
+>
+  <main>
+    <PageHero
+      eyebrow="Creator network"
+      title="Talent matched to your buyers,"
+      dim="not follower vanity"
+      lede="Nano and micro creators with real engagement, clear niches, and a track record of shipping on brief. We handle sourcing, contracts, and QC."
+      secondaryHref="/services"
+      secondaryLabel="Creator partnerships service"
+    />
+
+    <section class="section section-paper section-tight">
+      <div class="container">
+        <div class="creators-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <InstaCard
+            username="whoim_w"
+            subtitle="Prateek · Partner"
+            profileUrl="https://www.instagram.com/whoim_w?igsi=M2toY3hwazR1MDIy"
+            avatarUrl="/images/prateek-avatar.jpg"
+            postUrl="/images/prateek-post.jpg"
+          />
+          <InstaCard
+            username="direkkakkar17"
+            subtitle="Derek Kakkar · Partner"
+            profileUrl="https://www.instagram.com/direkkakkar17?igsi=ZjJyc3l4ZDFmbWNx"
+            avatarUrl="/images/derek-avatar.jpg"
+            postUrl="/images/derek-post.jpg"
+          />
+          <InstaCard
+            username="mcu_portal_official"
+            subtitle="MCU Portal · Partner"
+            profileUrl="https://www.instagram.com/mcu_portal_official?igsi=MW5neHo4dWZrZWI0NQ=="
+            avatarUrl="/images/mcu-avatar.jpg"
+            postUrl="/images/mcu-post.jpg"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-paper">
+      <div class="container split">
+        <div data-reveal>
+          <p class="eyebrow">How matching works</p>
+          <h2 class="display-sm">Fit over fame</h2>
+          <p class="lede" style="margin-top:1rem">
+            We score creators on audience overlap, content style, reliability, and historical conversion signals, not just follower count.
+          </p>
+        </div>
+        <div class="flow-steps" data-reveal data-reveal-delay="2">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div>
+              <h4>ICP brief</h4>
+              <p>Buyer persona, geographies, tone, and offer constraints.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div>
+              <h4>Shortlist</h4>
+              <p>Vetted options with rates, samples, and risk notes.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div>
+              <h4>Brief and ship</h4>
+              <p>Clear deliverables, revisions, and usage rights in writing.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div>
+              <h4>Retain winners</h4>
+              <p>Creators who convert get renewed into always on pods.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContactBand title="Need a creator pod for your niche?" />
+  </main>
+</BaseLayout>

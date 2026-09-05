@@ -1,0 +1,305 @@
+---
+import "../styles/global.css";
+import { navLinks, SITE_NAME, SITE_URL, WHATSAPP_LINK, faqs } from "../data/content";
+import RagChatbot from "../components/RagChatbot.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  activePath?: string;
+  canonicalPath?: string;
+  ogType?: string;
+  hideFooter?: boolean;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description = "Premier social media management and content creation agency in India. ScaleUpSocial helps companies, teams, startups, and visionary entrepreneurs dominate Instagram with high converting marketing.",
+  activePath = Astro.url.pathname.replace(/\/$/, "") || "/",
+  canonicalPath = Astro.url.pathname,
+  ogType = "website",
+  hideFooter = false,
+  bodyClass = "",
+} = Astro.props;
+
+const canonical = new URL(canonicalPath.endsWith("/") || canonicalPath === "/" ? canonicalPath : `${canonicalPath}/`, SITE_URL).toString();
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      sameAs: [WHATSAPP_LINK],
+      areaServed: "IN",
+      description,
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE_URL}/#service`,
+      name: `${SITE_NAME} Social Media Management`,
+      url: SITE_URL,
+      priceRange: "₹₹",
+      areaServed: {
+        "@type": "Country",
+        name: "India",
+      },
+      serviceType: [
+        "Social media management",
+        "Content creation agency",
+        "Instagram marketing",
+        "Social media strategy",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      inLanguage: "en-IN",
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="social media management agency India, content creation agency, Instagram marketing, social media strategy, startup marketing, corporate social media, entrepreneur personal branding, ScaleUpSocial"
+    />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="theme-color" content="#F9F7F7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {
+      activePath === "/faq" || activePath === "/" ? (
+        <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+      ) : null
+    }
+  </head>
+  <body class={bodyClass || undefined}>
+    <header class="site-header" id="site-header">
+      <nav class="nav-shell" aria-label="Primary">
+        <a href="/" class="logo">
+          <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <path
+              d="M80 30 C80 15, 20 15, 20 40 C20 60, 80 50, 80 70 C80 90, 20 85, 20 70"
+              stroke="#0a0a0a"
+              stroke-width="14"
+              stroke-linecap="round"></path>
+            <path d="M18 78 L82 22" stroke="#3F72AF" stroke-width="10" stroke-linecap="round"></path>
+            <path d="M82 22 L64 22 M82 22 L82 40" stroke="#3F72AF" stroke-width="10" stroke-linecap="round"
+            ></path>
+          </svg>
+          ScaleUp<span class="logo-accent">Social</span>
+        </a>
+        <div class="nav-links">
+          {
+            navLinks.map((link) => (
+              <a href={link.href} class={activePath === link.href ? "is-active" : undefined}>
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+        <a class="pill pill-teal nav-cta" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+          WhatsApp us <span class="arrow">↗</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav">
+      {
+        navLinks.map((link) => (
+          <a href={link.href} class={activePath === link.href ? "is-active" : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+      <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <slot />
+
+    {
+      !hideFooter && (
+        <footer class="site-footer">
+          <div class="container footer-new-layout">
+            <div class="footer-top">
+              <div class="footer-left-col">
+                <a href="/" class="footer-logo" aria-label="ScaleUpSocial Home">
+                  <svg class="footer-logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                    <path
+                      d="M80 30 C80 15, 20 15, 20 40 C20 60, 80 50, 80 70 C80 90, 20 85, 20 70"
+                      stroke="#ffffff"
+                      stroke-width="14"
+                      stroke-linecap="round"></path>
+                    <path d="M18 78 L82 22" stroke="#3F72AF" stroke-width="10" stroke-linecap="round"></path>
+                    <path d="M82 22 L64 22 M82 22 L82 40" stroke="#3F72AF" stroke-width="10" stroke-linecap="round"></path>
+                  </svg>
+                  <span class="footer-logo-text">ScaleUp<span class="logo-accent">Social</span></span>
+                </a>
+
+                <div class="footer-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Built for focused growth</span>
+                </div>
+
+                <p class="footer-tagline">
+                  High converting social media marketing, short form content, and organic distribution for ambitious brands.
+                </p>
+              </div>
+
+              <div class="footer-main-copy">
+                <h2 class="footer-display">Built for founder led<br/>Indian businesses.</h2>
+                <p class="footer-lede">Consistent, strategic social media without hiring an in house team.</p>
+              </div>
+            </div>
+
+            <div class="footer-bottom-row">
+              <div class="footer-links">
+                {navLinks.map((link) => (
+                  <a href={link.href}>{link.label}</a>
+                ))}
+                <a href="/contact">Contact</a>
+              </div>
+              <div class="footer-brand-box">
+                <div class="brand-box-inner">
+                  <span class="brand-name">ScaleUpSocial</span>
+                  <span class="brand-tag">Social media management ready to grow.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      )
+    }
+
+    <script>
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const header = document.getElementById("site-header");
+      let lastY = 0;
+      window.addEventListener(
+        "scroll",
+        () => {
+          const y = window.scrollY;
+          if (!header) return;
+          if (y > lastY && y > 120) header.classList.add("is-hidden");
+          else header.classList.remove("is-hidden");
+          lastY = y;
+        },
+        { passive: true }
+      );
+
+      const toggle = document.getElementById("nav-toggle");
+      const mobileNav = document.getElementById("mobile-nav");
+      toggle?.addEventListener("click", () => {
+        const open = mobileNav?.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      mobileNav?.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          mobileNav.classList.remove("is-open");
+          toggle?.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      const reveals = document.querySelectorAll("[data-reveal]");
+      if (reduceMotion) {
+        reveals.forEach((el) => el.classList.add("is-in"));
+      } else if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-in");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.02, rootMargin: "0px 0px 60px 0px" }
+        );
+        reveals.forEach((el) => io.observe(el));
+      } else {
+        reveals.forEach((el) => el.classList.add("is-in"));
+      }
+
+      document.querySelectorAll(".faq-item").forEach((item) => {
+        const btn = item.querySelector("button");
+        const body = item.querySelector(".faq-body");
+        btn?.addEventListener("click", () => {
+          const open = item.classList.contains("is-open");
+          document.querySelectorAll(".faq-item.is-open").forEach((other) => {
+            other.classList.remove("is-open");
+            other.querySelector("button")?.setAttribute("aria-expanded", "false");
+            const b = other.querySelector(".faq-body");
+            if (b instanceof HTMLElement) b.style.maxHeight = "0px";
+          });
+          if (!open && body instanceof HTMLElement) {
+            item.classList.add("is-open");
+            btn.setAttribute("aria-expanded", "true");
+            body.style.maxHeight = `${body.scrollHeight + 24}px`;
+          }
+        });
+      });
+
+      const form = document.getElementById("lead-form");
+      form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!(form instanceof HTMLFormElement)) return;
+        const data = new FormData(form);
+        const email = String(data.get("email") || "").trim();
+        const company = String(data.get("company") || "").trim();
+        const goal = String(data.get("goal") || "").trim();
+        if (!email || !company || !goal) return;
+
+        const button = form.querySelector('button[type="submit"]');
+        if (button) {
+          button.textContent = "Request received";
+          button.setAttribute("disabled", "true");
+        }
+        form.reset();
+      });
+    </script>
+    <RagChatbot />
+  </body>
+</html>

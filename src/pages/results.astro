@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactBand from "../components/ContactBand.astro";
+import ProofOfWork from "../components/ProofOfWork.astro";
+import { cases, testimonials } from "../data/content";
+---
+
+<BaseLayout
+  title="Social Media Results & Case Studies | ScaleUpSocial"
+  description="Case studies and real marketing outcomes from ScaleUpSocial social media management and content creation for startups, tech brands, D2C, and visionary entrepreneurs."
+  activePath="/results"
+>
+  <main>
+    <PageHero
+      eyebrow="Results"
+      title="Outcomes your sales team can feel"
+      lede="Representative engagements. Metrics reflect combined organic Reels, creator posts, and capture flows, not vanity reach alone."
+      secondaryHref="/contact"
+      secondaryLabel="Talk about your goals"
+    />
+
+    <!-- Verified Proof of Work Component -->
+    <ProofOfWork id="proof-of-work" />
+
+    <section class="section section-paper section-tight">
+      <div class="container">
+        <div class="cases-grid">
+          {
+            cases.map((c, i) => (
+              <article class={`case-card ${c.featured ? "featured" : ""}`} data-reveal data-reveal-delay={String(i + 1)}>
+                {c.bgVideo && (
+                  <video
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.15;"
+                  >
+                    <source src={c.bgVideo} type="video/mp4" />
+                  </video>
+                )}
+                <div style="position: relative; z-index: 1;">
+                  <span class="case-tag">{c.tag}</span>
+                  <h3>{c.title}</h3>
+                  <p>{c.body}</p>
+                </div>
+                <div class="case-metrics" style="position: relative; z-index: 1;">
+                  {c.metrics.map((m) => (
+                    <div>
+                      <strong>{m.value}</strong>
+                      <span>{m.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Proof</p>
+          <h2 class="display-sm">What partners say when the calendar fills</h2>
+        </div>
+        <div class="proof-strip">
+          {
+            testimonials.map((t, i) => (
+              <article class="proof-card" data-reveal data-reveal-delay={String(i + 1)}>
+                <blockquote>“{t.quote}”</blockquote>
+                <div class="proof-person">
+                  <div class="avatar">{t.initials}</div>
+                  <div>
+                    <strong>{t.name}</strong>
+                    <span>{t.role}</span>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <ContactBand />
+  </main>
+</BaseLayout>

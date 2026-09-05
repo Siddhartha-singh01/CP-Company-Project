@@ -1,0 +1,205 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/about.css";
+---
+
+<BaseLayout
+  title="About Us | ScaleUpSocial"
+  description="Learn about our experience, motto, and view our portfolio."
+  activePath="/about"
+  hideFooter={true}
+  bodyClass="page-about-locked"
+>
+  <main>
+    <section class="about-grid-wrapper">
+      <div class="about-grid">
+        
+        <!-- 1: Top Left Image -->
+        <div class="about-tile tile-image" style="background-image: url('/images/about-desk.jpg')" aria-label="Creative desk working"></div>
+        
+        <!-- 2: Stats -->
+        <div class="about-tile tile-stats">
+          <p class="about-eyebrow">Why are we awesome</p>
+          <h2 class="about-title-dark">More than <strong>2 years</strong> of experience</h2>
+          
+          <div class="progress-bars" id="progress-bars">
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>Humour</span>
+                <span class="progress-value" data-target="90">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" data-width="90%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>Empathy</span>
+                <span class="progress-value" data-target="88">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" data-width="88%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>Dedication</span>
+                <span class="progress-value" data-target="95">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" data-width="95%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span>Consistency</span>
+                <span class="progress-value" data-target="89">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" data-width="89%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3: Motto -->
+        <div class="about-tile tile-brand">
+          <div class="motto-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path>
+              <path d="M9 18h6"></path>
+              <path d="M10 22h4"></path>
+            </svg>
+          </div>
+          <h2 class="about-title-light">Our Motto</h2>
+          <p class="about-text">
+            Everything that you believe, you've worked for, and you ought to create out there in the world <br/><br/>
+            It matters to us more than anything else.
+          </p>
+        </div>
+
+        <!-- 4: Testimonial -->
+        <div class="about-tile tile-brand tile-testimonial">
+          <p class="about-quote">
+            "THEY TRANSFORMED OUR ONLINE PRESENCE. THEIR STRATEGIC APPROACH DIDN'T JUST BOOST OUR SOCIAL MEDIA IT FUNDAMENTALLY IMPROVED OUR SEARCH RANKINGS. BY DRIVING AUTHENTIC CUSTOMER REVIEWS AND CONSISTENT TRACTION TO OUR WEBSITE, THEY HELPED US DOMINATE OUR NICHE AND STAY AT THE VERY TOP."
+          </p>
+          <div class="quote-author">
+            <strong>MR. SIDDHARTHA SINGH</strong><br/>
+            <span>FOUNDER, ELITE FOLKS</span>
+          </div>
+        </div>
+
+        <!-- 5: Milestone -->
+        <div class="about-tile tile-dark">
+          <div class="milestone-number" id="milestone-section"><span class="milestone-counter" data-target="500">0</span>+</div>
+          <p class="about-eyebrow-center">Projects</p>
+          <p class="about-text-dim">
+            We have punched in a lot of days and nights so that we can help brands and their businesses grow. We love what we do by creating designs and content that you cannot resist.
+          </p>
+        </div>
+
+        <!-- 6: Portfolio Image with Overlay -->
+        <div class="about-tile tile-image" style="background-image: url('/images/about-portfolio.jpg')">
+          <div class="portfolio-overlay">
+            <a href="/results" class="portfolio-link">View Portfolio <span class="arrow">→</span></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const progressSection = document.getElementById("progress-bars");
+    const progressFills = document.querySelectorAll(".progress-fill");
+    const progressValues = document.querySelectorAll(".progress-value");
+
+    let animated = false;
+
+    const animateProgress = () => {
+      if (animated) return;
+      animated = true;
+
+      // Animate widths
+      progressFills.forEach((fill) => {
+        const width = fill.getAttribute("data-width");
+        fill.style.width = width;
+      });
+
+      // Animate numbers
+      progressValues.forEach((valueEl) => {
+        const target = parseInt(valueEl.getAttribute("data-target"));
+        let current = 0;
+        const duration = 1500; // ms
+        const increment = target / (duration / 16); // 60fps
+
+        const updateCounter = () => {
+          current += increment;
+          if (current >= target) {
+            valueEl.innerText = target + "%";
+          } else {
+            valueEl.innerText = Math.floor(current) + "%";
+            requestAnimationFrame(updateCounter);
+          }
+        };
+        updateCounter();
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateProgress();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (progressSection) {
+      observer.observe(progressSection);
+    }
+
+    // Milestone Counter Animation
+    const milestoneSection = document.getElementById("milestone-section");
+    const milestoneCounter = document.querySelector(".milestone-counter");
+    let milestoneAnimated = false;
+
+    const animateMilestone = () => {
+      if (milestoneAnimated || !milestoneCounter) return;
+      milestoneAnimated = true;
+
+      const target = parseInt(milestoneCounter.getAttribute("data-target"));
+      let current = 0;
+      const duration = 2000; // ms
+      const increment = target / (duration / 16);
+
+      const updateMilestone = () => {
+        current += increment;
+        if (current >= target) {
+          milestoneCounter.innerText = target;
+        } else {
+          milestoneCounter.innerText = Math.floor(current);
+          requestAnimationFrame(updateMilestone);
+        }
+      };
+      updateMilestone();
+    };
+
+    const milestoneObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateMilestone();
+            milestoneObserver.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (milestoneSection) {
+      milestoneObserver.observe(milestoneSection);
+    }
+
+    // Auto-trigger on page load since it's a zero-scroll single screen
+    setTimeout(() => {
+      animateProgress();
+      animateMilestone();
+    }, 250);
+  </script>
+</BaseLayout>

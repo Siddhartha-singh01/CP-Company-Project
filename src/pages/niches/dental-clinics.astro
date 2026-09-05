@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import ContactBand from "../../components/ContactBand.astro";
+import { WHATSAPP_LINK } from "../../data/content";
+---
+
+<BaseLayout
+  title="Social Media Management for Dental Clinics | ScaleUpSocial"
+  description="Instagram content creation and social media management for premium dental clinics in Bengaluru and India. Built for cosmetic, Invisalign, and implant clinics."
+  activePath="/niches/dental-clinics"
+>
+  <main>
+    <PageHero
+      eyebrow="Dental clinics"
+      title="Social media management for premium dental clinics"
+      lede="We help cosmetic, Invisalign, implant, and smile design clinics turn strong Google reviews into consistent Instagram trust content."
+      primaryHref={WHATSAPP_LINK}
+      primaryLabel="WhatsApp a clinic audit"
+      secondaryHref="/pricing"
+      secondaryLabel="See Momentum pricing"
+    />
+
+    <section class="section section-paper section-tight">
+      <div class="container split">
+        <div data-reveal>
+          <p class="eyebrow">Ideal fit</p>
+          <h2 class="display-sm">Clinics we shortlist first</h2>
+          <ul class="problem-list" style="margin-top:1.25rem">
+            <li class="problem-item">
+              <i>✓</i>
+              <div>
+                <h3>Google rating 4.2+</h3>
+                <p>Strong reviews already exist. Content just needs to catch up.</p>
+              </div>
+            </li>
+            <li class="problem-item">
+              <i>✓</i>
+              <div>
+                <h3>Irregular Instagram</h3>
+                <p>Fewer than 3 to 4 posts in the last 30 days is a common signal.</p>
+              </div>
+            </li>
+            <li class="problem-item">
+              <i>✓</i>
+              <div>
+                <h3>Doctor visible, no in house manager</h3>
+                <p>Owner led clinics in premium areas with booking links ready.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="solution-panel" data-reveal data-reveal-delay="2">
+          <h3>Content ideas we often start with</h3>
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-num">1</div>
+              <div>
+                <h4>Myth vs fact Reels</h4>
+                <p>Aligners, implants, and whitening questions patients already ask.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">2</div>
+              <div>
+                <h4>Review to Reel</h4>
+                <p>Turn Google praise into short trust clips with consent.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">3</div>
+              <div>
+                <h4>Doctor FAQ days</h4>
+                <p>Visible clinicians answering one objection per Reel.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Bengaluru search angles</p>
+          <h2 class="display-sm">Areas we commonly support</h2>
+        </div>
+        <div class="link-cards">
+          {
+            [
+              "Cosmetic dentist in Indiranagar",
+              "Dental clinic in Koramangala",
+              "Invisalign clinic in Bangalore",
+              "Smile design clinic in Whitefield",
+              "Dental implants clinic in HSR Layout",
+              "Family dental clinic with 1 to 3 branches",
+            ].map((item, i) => (
+              <div class="link-card" data-reveal data-reveal-delay={String((i % 4) + 1)}>
+                <h3>{item}</h3>
+                <p>Educational Instagram content and steady social media management for local discovery.</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <ContactBand
+      title="Send your clinic Instagram for a quick audit"
+      lede="We reply with 3 specific content ideas based on your reviews and posting gaps. No generic agency spam."
+    />
+  </main>
+</BaseLayout>

@@ -1,0 +1,112 @@
+---
+export interface Props {
+  username: string;
+  subtitle?: string;
+  profileUrl: string;
+  avatarUrl: string;
+  postUrl: string;
+  aspectRatio?: string;
+}
+
+const { username, subtitle = "Instagram Creator", profileUrl, avatarUrl, postUrl, aspectRatio = "4 / 5" } = Astro.props;
+---
+
+<article class="insta-card" data-reveal>
+  <div class="insta-header">
+    <div class="insta-user">
+      <a href={profileUrl} target="_blank" rel="noopener noreferrer">
+        <img src={avatarUrl} alt={username} class="insta-avatar" loading="lazy" />
+      </a>
+      <div class="insta-meta">
+        <a href={profileUrl} target="_blank" rel="noopener noreferrer" class="insta-username">{username}</a>
+        <span class="insta-subtitle">{subtitle}</span>
+      </div>
+    </div>
+    <a href={profileUrl} target="_blank" rel="noopener noreferrer" class="insta-btn">View profile</a>
+  </div>
+  <a href={profileUrl} target="_blank" rel="noopener noreferrer" class="insta-body" style={`aspect-ratio: ${aspectRatio};`}>
+    <img src={postUrl} alt={`${username} latest post`} class="insta-post-img" loading="lazy" />
+  </a>
+</article>
+
+<style>
+  .insta-card {
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.0975);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .insta-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  }
+  .insta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: #fff;
+  }
+  .insta-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .insta-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.0975);
+  }
+  .insta-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+  .insta-username {
+    font-weight: 600;
+    font-size: 14px;
+    color: #262626;
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .insta-username:hover {
+    text-decoration: underline;
+  }
+  .insta-subtitle {
+    font-size: 12px;
+    color: #8e8e8e;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .insta-btn {
+    background: #0095f6;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: background 0.2s ease;
+  }
+  .insta-btn:hover {
+    background: #1877f2;
+  }
+  .insta-body {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: block;
+    background: #fafafa;
+  }
+  .insta-post-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

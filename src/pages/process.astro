@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactBand from "../components/ContactBand.astro";
+import { processSteps } from "../data/content";
+---
+
+<BaseLayout
+  title="Social Media Process | ScaleUpSocial"
+  description="How ScaleUpSocial audits market gaps, builds high performance content systems, and manages social media for companies, startups, and entrepreneurs."
+  activePath="/process"
+>
+  <main>
+    <PageHero
+      eyebrow="Process"
+      title="From audit to consistent publishing"
+      dim="in a repeatable cadence"
+      lede="A fixed operating rhythm so your marketing content compounds month over month. No random acts of posting."
+      secondaryHref="/services"
+      secondaryLabel="Explore services"
+    />
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="steps-rail" style="grid-template-columns:1fr; gap:1rem">
+          {
+            processSteps.map((step, i) => (
+              <article class="step-card" data-reveal data-reveal-delay={String((i % 4) + 1)} style="min-height:0; display:grid; gap:0.75rem; grid-template-columns:1fr; ">
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                  <p style="margin-top:0.75rem; color:var(--grey-2)">{step.detail}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div data-reveal>
+          <p class="eyebrow">Operating cadence</p>
+          <h2 class="display-sm">What a typical month looks like</h2>
+          <p class="lede" style="margin-top:1rem">
+            Same rhythm every month so your team always knows what ships and what we measure.
+          </p>
+        </div>
+        <div class="flow-steps" data-reveal data-reveal-delay="2">
+          <div class="flow-step">
+            <div class="flow-num">W1</div>
+            <div>
+              <h4>Plan and brief</h4>
+              <p>Hook matrix, creator shortlist, capture QA, and ship calendar locked.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">W2</div>
+            <div>
+              <h4>Produce and publish</h4>
+              <p>In house Reels and creator posts go live with tracking verified.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">W3</div>
+            <div>
+              <h4>Read the scorecard</h4>
+              <p>Hold rate, CPL, booked calls. Kill losers. Brief winners harder.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">W4</div>
+            <div>
+              <h4>Scale and renew</h4>
+              <p>Paid behind proof. Renew converting creators. Reset the next matrix.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContactBand title="Want this cadence on your account?" />
+  </main>
+</BaseLayout>

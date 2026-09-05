@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactBand from "../components/ContactBand.astro";
+import { faqs } from "../data/content";
+---
+
+<BaseLayout
+  title="FAQ | Social Media Management Agency India | ScaleUpSocial"
+  description="FAQ on social media management, content creation pricing, Instagram marketing for companies and startups, and ScaleUpSocial timelines."
+  activePath="/faq"
+>
+  <main>
+    <PageHero
+      eyebrow="FAQ"
+      title="Straight answers before you WhatsApp us"
+      lede="Questions on fit, pricing, creative production workflows, and what we refuse to sell."
+      primaryLabel="WhatsApp us"
+      secondaryHref="/contact"
+      secondaryLabel="Contact page"
+    />
+
+    <section class="section section-tight">
+      <div class="container" style="max-width:860px">
+        <div class="faq-list" data-reveal>
+          {
+            faqs.map((f) => (
+              <div class="faq-item">
+                <button type="button" aria-expanded="false">
+                  {f.q}
+                  <span aria-hidden="true">+</span>
+                </button>
+                <div class="faq-body">
+                  <p>{f.a}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <ContactBand title="Didn’t see your question?" lede="Email hello@scaleupsocial.com or book a call. We’ll answer plainly." />
+  </main>
+</BaseLayout>

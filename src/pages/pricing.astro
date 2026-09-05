@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactBand from "../components/ContactBand.astro";
+import { pricingPlans, WHATSAPP_LINK } from "../data/content";
+---
+
+<BaseLayout
+  title="Social Media Management Pricing India | ScaleUpSocial"
+  description="Transparent social media management and content creation pricing. Momentum is the most chosen plan for fast growing companies and founders."
+  activePath="/pricing"
+>
+  <main>
+    <PageHero
+      eyebrow="Pricing"
+      title="Pick a plan that matches your growth goals"
+      lede="Starter for lean testing. Momentum for complete social media management plus content creation. Scale for high growth teams and multi brand companies."
+      primaryHref={WHATSAPP_LINK}
+      primaryLabel="WhatsApp us"
+      secondaryHref="/faq"
+      secondaryLabel="Read FAQ"
+    />
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="pricing-grid">
+          {
+            pricingPlans.map((plan, i) => (
+              <article class={`price-card ${plan.featured ? "featured" : ""}`} data-reveal data-reveal-delay={String(i + 1)}>
+                {plan.badge && <span class="price-badge">{plan.badge}</span>}
+                <h3>{plan.name}</h3>
+                <div class="price-amount">
+                  {plan.price}
+                  <span>{plan.period}</span>
+                </div>
+                <p>{plan.blurb}</p>
+                <ul>
+                  {plan.points.map((p) => (
+                    <li>{p}</li>
+                  ))}
+                </ul>
+                <a class="pill pill-teal" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                  WhatsApp about {plan.name} <span class="arrow">↗</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-paper">
+      <div class="container split">
+        <div data-reveal>
+          <p class="eyebrow">Not a fit</p>
+          <h2 class="display-sm">We politely decline these requests</h2>
+        </div>
+        <div class="problem-list" data-reveal data-reveal-delay="2">
+          <div class="problem-item">
+            <i>×</i>
+            <div>
+              <h3>Guaranteed followers or bots</h3>
+              <p>We do not sell hollow vanity metrics or spam followers.</p>
+            </div>
+          </div>
+          <div class="problem-item">
+            <i>×</i>
+            <div>
+              <h3>Ultra cheap low-effort Reels</h3>
+              <p>Premium aesthetics and brand credibility require thoughtful production.</p>
+            </div>
+          </div>
+          <div class="problem-item">
+            <i>×</i>
+            <div>
+              <h3>Free trial only inquiries</h3>
+              <p>Ambitious companies start with a scoped, high impact paid month.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContactBand title="Unsure which plan fits?" lede="WhatsApp your brand Instagram link or website. We will recommend Starter, Momentum, or Scale in plain language." />
+  </main>
+</BaseLayout>

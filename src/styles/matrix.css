@@ -1,0 +1,23 @@
+.hero-matrix-grid {
+  position: absolute;
+  bottom: -20vh;
+  left: -50%;
+  width: 200%;
+  height: 120vh;
+  background-image: 
+    linear-gradient(rgba(212, 175, 55, 0.8) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.8) 2px, transparent 2px);
+  background-size: 60px 60px;
+  transform: perspective(800px) rotateX(75deg);
+  transform-origin: bottom center;
+  z-index: 0;
+  pointer-events: none;
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 20%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 20%, transparent 80%);
+  animation: matrix-scroll 10s linear infinite;
+}
+
+@keyframes matrix-scroll {
+  from { background-position: 0 0; }
+  to { background-position: 0 60px; }
+}

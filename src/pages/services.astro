@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactBand from "../components/ContactBand.astro";
+import ServiceIcon from "../components/ServiceIcon.astro";
+import { services } from "../data/content";
+---
+
+<BaseLayout
+  title="Content Creation & Social Media Management Services | ScaleUpSocial"
+  description="Premier content creation agency services, full Instagram marketing, viral video production, and social media strategy for companies, teams, startups, and entrepreneurs."
+  activePath="/services"
+>
+  <main>
+    <PageHero
+      eyebrow="Services"
+      title="Content creation and social media management services"
+      lede="Four connected capabilities for startups, growing companies, and visionary founders: content creation, social media management, Instagram marketing, and conversion strategy."
+      bgVideo="/videos/hero-bg.mp4"
+      secondaryHref="/process"
+      secondaryLabel="See how we work"
+    />
+
+    <section class="section section-paper section-tight">
+      <div class="container service-detail">
+        {
+          services.map((s, i) => (
+            <article class="service-card" id={s.slug} data-reveal data-reveal-delay={String((i % 4) + 1)}>
+              <ServiceIcon icon={s.icon} />
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+              <p class="detail-copy">{s.detail}</p>
+              <ul>
+                {s.points.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div data-reveal>
+          <p class="eyebrow">Who it’s for</p>
+          <h2 class="display-sm">Companies, teams, and founders ready to dominate their category</h2>
+          <p class="lede" style="margin-top:1rem">
+            High growth startups, established companies, D2C brands, and visionary entrepreneurs. Great products with an underutilized social presence are our sweet spot.
+          </p>
+        </div>
+        <div class="problem-list" data-reveal data-reveal-delay="2">
+          <div class="problem-item">
+            <i>✓</i>
+            <div>
+              <h3>Great Product or Offer</h3>
+              <p>You have real customer satisfaction and genuine market value.</p>
+            </div>
+          </div>
+          <div class="problem-item">
+            <i>✓</i>
+            <div>
+              <h3>Social Presence is Inconsistent</h3>
+              <p>Irregular posting, outdated formats, or no dedicated creative team.</p>
+            </div>
+          </div>
+          <div class="problem-item">
+            <i>✓</i>
+            <div>
+              <h3>You Want Real ROI, Not Fake Bots</h3>
+              <p>High retention creative, qualified inbound leads, and real category authority.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContactBand title="Pick a service stack and WhatsApp us to scope it" />
+  </main>
+</BaseLayout>

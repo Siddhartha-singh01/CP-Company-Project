@@ -1,0 +1,263 @@
+---
+import "../styles/ScrollExpand.css";
+
+interface Props {
+  src?: string;
+  mediaType?: "image" | "video";
+  poster?: string;
+  alt?: string;
+  title?: string;
+  scrollHint?: string;
+  startWidth?: number;
+  startHeight?: number;
+  startRadius?: number;
+  endRadius?: number;
+  mediaZoom?: number;
+  scrollDistance?: number;
+  holdDistance?: number;
+  smoothing?: number;
+  overlayScrim?: number;
+  useWindowScroll?: boolean;
+  enabled?: boolean;
+  className?: string;
+  id?: string;
+}
+
+const {
+  src = "/images/studio-showcase.jpg",
+  mediaType = "image",
+  poster = "",
+  alt = "ScaleUpSocial Content Production",
+  title = "From quiet profiles to category-defining market authority.",
+  scrollHint = "Scroll to expand",
+  startWidth = 44,
+  startHeight = 60,
+  startRadius = 24,
+  endRadius = 0,
+  mediaZoom = 1.35,
+  scrollDistance = 1.2,
+  holdDistance = 0.35,
+  smoothing = 0.1,
+  overlayScrim = 0.55,
+  useWindowScroll = true,
+  enabled = true,
+  className = "",
+  id = `scroll-expand-${Math.random().toString(36).substring(2, 9)}`,
+} = Astro.props;
+
+const config = JSON.stringify({
+  startWidth,
+  startHeight,
+  startRadius,
+  endRadius,
+  mediaZoom,
+  scrollDistance,
+  holdDistance,
+  smoothing,
+  overlayScrim,
+  useWindowScroll,
+  enabled,
+});
+---
+
+<div
+  id={id}
+  class={`scroll-expand ${useWindowScroll ? "" : "scroll-expand--scroller"} ${className}`.trim()}
+  data-config={config}
+>
+  <div class="scroll-expand__track">
+    <div class="scroll-expand__stage">
+      <div class="scroll-expand__frame">
+        {
+          mediaType === "video" ? (
+            <video
+              class="scroll-expand__media"
+              src={src}
+              poster={poster}
+              autoplay
+              muted
+              loop
+              playsinline
+            />
+          ) : (
+            <img class="scroll-expand__media" src={src} alt={alt} draggable="false" />
+          )
+        }
+        <div class="scroll-expand__scrim"></div>
+        <div class="scroll-expand__overlay">
+          <slot />
+        </div>
+      </div>
+      {title && (
+        <div class="scroll-expand__title">
+          <Fragment set:html={title} />
+        </div>
+      )}
+      {scrollHint && (
+        <div class="scroll-expand__hint">
+          <span class="scroll-expand__hint-dot"></span>
+          <span>{scrollHint}</span>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<script>
+  const clamp = (v: number, a: number, b: number): number => (v < a ? a : v > b ? b : v);
+
+  const smoothstep = (edge0: number, edge1: number, x: number): number => {
+    const t = clamp((x - edge0) / (edge1 - edge0 || 1e-6), 0, 1);
+    return t * t * (3 - 2 * t);
+  };
+
+  function initScrollExpand() {
+    const elements = document.querySelectorAll<HTMLElement>(".scroll-expand[data-config]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    elements.forEach((root) => {
+      if (root.dataset.initialized === "true") return;
+      root.dataset.initialized = "true";
+
+      const configStr = root.getAttribute("data-config");
+      if (!configStr) return;
+      const c = JSON.parse(configStr);
+
+      const track = root.querySelector<HTMLElement>(".scroll-expand__track");
+      const stage = root.querySelector<HTMLElement>(".scroll-expand__stage");
+      const frame = root.querySelector<HTMLElement>(".scroll-expand__frame");
+      const media = root.querySelector<HTMLElement>(".scroll-expand__media");
+      const scrim = root.querySelector<HTMLElement>(".scroll-expand__scrim");
+      const title = root.querySelector<HTMLElement>(".scroll-expand__title");
+      const hint = root.querySelector<HTMLElement>(".scroll-expand__hint");
+      const overlay = root.querySelector<HTMLElement>(".scroll-expand__overlay");
+
+      if (!track || !stage || !frame || !media) return;
+
+      let raf = 0;
+      let current = 0;
+      let target = 0;
+      let stageH = 0;
+      let running = false;
+
+      const applyProgress = (p: number) => {
+        if (!frame || !media) return;
+        const e = smoothstep(0, 1, p);
+
+        const isMobile = (root.clientWidth || window.innerWidth) < 768;
+        const startW = isMobile ? Math.max(c.startWidth, 88) : c.startWidth;
+        const startH = isMobile ? Math.max(c.startHeight, 72) : c.startHeight;
+
+        const w = startW + (100 - startW) * e;
+        const h = startH + (100 - startH) * e;
+        const ix = Math.max(0, (100 - w) / 2);
+        const iy = Math.max(0, (100 - h) / 2);
+        const r = c.startRadius + (c.endRadius - c.startRadius) * e;
+
+        frame.style.clipPath = `inset(${iy}% ${ix}% ${iy}% ${ix}% round ${r}px)`;
+        media.style.transform = `scale(${c.mediaZoom + (1 - c.mediaZoom) * e})`;
+
+        if (scrim) {
+          scrim.style.opacity = `${c.overlayScrim * e}`;
+        }
+
+        if (title) {
+          const out = smoothstep(0.35, 0.8, p);
+          title.style.opacity = `${1 - out}`;
+          title.style.transform = `translate3d(0, ${-24 * out}px, 0) scale(${1 + 0.04 * out})`;
+        }
+
+        if (hint) {
+          const gone = smoothstep(0, 0.1, p);
+          hint.style.opacity = `${1 - gone}`;
+          hint.style.transform = `translate3d(0, ${8 * gone}px, 0)`;
+        }
+
+        if (overlay) {
+          const inn = smoothstep(0.65, 0.98, p);
+          overlay.style.opacity = `${inn}`;
+          overlay.style.transform = `translate3d(0, ${16 * (1 - inn)}px, 0)`;
+        }
+      };
+
+      const measure = () => {
+        stageH = c.useWindowScroll ? window.innerHeight : root.clientHeight;
+        if (stageH <= 0) return;
+        stage.style.height = `${stageH}px`;
+        const trackH = stageH * (1 + Math.max(0.1, c.scrollDistance) + Math.max(0, c.holdDistance));
+        track.style.height = `${trackH}px`;
+
+        // Pull the next section up so it starts exactly where the sticky stage ends
+        // This eliminates the dead dark space between animation and next section
+        root.style.marginBottom = `${-(trackH - stageH)}px`;
+
+        const width = root.clientWidth || stageH;
+        stage.style.setProperty("--se-title-size", `${clamp(width * 0.055, 22, 64)}px`);
+      };
+
+      const readProgress = () => {
+        if (!c.enabled) return 1;
+        const span = stageH * Math.max(0.01, c.scrollDistance);
+        if (c.useWindowScroll) {
+          const top = track.getBoundingClientRect().top;
+          return clamp(-top / span, 0, 1);
+        }
+        return clamp(root.scrollTop / span, 0, 1);
+      };
+
+      const tick = () => {
+        const k = c.smoothing <= 0 ? 1 : 1 - Math.exp(-1 / (60 * c.smoothing));
+        current += (target - current) * k;
+        if (Math.abs(target - current) < 0.0004) {
+          current = target;
+          running = false;
+        }
+        applyProgress(current);
+        raf = running ? requestAnimationFrame(tick) : 0;
+      };
+
+      const kick = () => {
+        if (running) return;
+        running = true;
+        if (!raf) raf = requestAnimationFrame(tick);
+      };
+
+      const onScroll = () => {
+        target = readProgress();
+        if (c.smoothing <= 0 || reduceMotion) {
+          current = target;
+          applyProgress(current);
+          return;
+        }
+        kick();
+      };
+
+      const onResize = () => {
+        measure();
+        target = readProgress();
+        current = target;
+        applyProgress(current);
+      };
+
+      measure();
+      target = readProgress();
+      current = target;
+      applyProgress(current);
+
+      const scroller = c.useWindowScroll ? window : root;
+      scroller.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onResize, { passive: true });
+
+      const ro = new ResizeObserver(onResize);
+      ro.observe(root);
+    });
+  }
+
+  // Support direct load & Astro page swap/transitions
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScrollExpand);
+  } else {
+    initScrollExpand();
+  }
+  document.addEventListener("astro:page-load", initScrollExpand);
+</script>

@@ -1,0 +1,81 @@
+---
+import { WHATSAPP_LINK } from "../data/content";
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  dim?: string;
+  lede: string;
+  bgVideo?: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  dim,
+  lede,
+  bgVideo,
+  primaryHref = WHATSAPP_LINK,
+  primaryLabel = "WhatsApp us",
+  secondaryHref,
+  secondaryLabel,
+} = Astro.props;
+
+const primaryExternal = primaryHref.startsWith("http");
+const secondaryExternal = secondaryHref?.startsWith("http");
+---
+
+<section class="page-hero" style="position: relative; overflow: hidden; min-height: 50vh; display: flex; align-items: center;">
+  {bgVideo && (
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.15;"
+    >
+      <source src={bgVideo} type="video/mp4" />
+    </video>
+  )}
+  <div class="container page-hero-inner" data-reveal style="position: relative; z-index: 1;">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="display-sm">
+      {title}
+      {
+        dim && (
+          <>
+            <br />
+            <span class="dim">{dim}</span>
+          </>
+        )
+      }
+    </h1>
+    <p class="lede">{lede}</p>
+    <div class="hero-actions">
+      <a
+        class="pill pill-teal"
+        href={primaryHref}
+        target={primaryExternal ? "_blank" : undefined}
+        rel={primaryExternal ? "noopener noreferrer" : undefined}
+      >
+        {primaryLabel} <span class="arrow">↗</span>
+      </a>
+      {
+        secondaryHref && secondaryLabel && (
+          <a
+            class="pill pill-ghost"
+            href={secondaryHref}
+            target={secondaryExternal ? "_blank" : undefined}
+            rel={secondaryExternal ? "noopener noreferrer" : undefined}
+          >
+            {secondaryLabel} <span class="arrow">↗</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,310 @@
+/* ==========================================================================
+   About Grid Component Styles - True Single Page Viewport (No Scroll)
+   ========================================================================== */
+
+/* Lock body on about page so there is never a vertical scrollbar */
+html.page-about-locked,
+body.page-about-locked {
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: fixed;
+  width: 100%;
+}
+
+.about-grid-wrapper {
+  width: 100%;
+  height: calc(100vh - 64px);
+  height: calc(100dvh - 64px);
+  margin-top: 64px;
+  overflow: hidden;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 900px) {
+  .about-grid-wrapper {
+    height: calc(100vh - 72px);
+    height: calc(100dvh - 72px);
+    margin-top: 72px;
+  }
+}
+
+/* Base Grid: 2 columns × 3 rows on Mobile/Tablet */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 3 columns × 2 rows on Desktop / Large Screens */
+@media (min-width: 900px) {
+  .about-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+
+.about-tile {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(0.5rem, 1.2vh, 1.2rem) clamp(0.6rem, 1.5vw, 1.5rem);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .about-tile {
+    padding: clamp(1rem, 2vh + 0.5vw, 2.5rem);
+  }
+}
+
+/* Image tiles */
+.tile-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+}
+
+/* White stats tile */
+.tile-stats {
+  background: #ffffff;
+  color: #112D4E;
+  align-items: flex-start;
+}
+
+/* Brand colored tiles (Motto & Testimonial) */
+.tile-brand {
+  background: var(--teal);
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+}
+
+/* Dark tiles (Milestone) */
+.tile-dark {
+  background: #112D4E;
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+}
+
+/* Typography Overrides for Tiles */
+.about-eyebrow {
+  font-size: clamp(0.6rem, 0.6vw + 0.25vh, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: clamp(0.2rem, 0.5vh, 0.5rem);
+  line-height: 1.2;
+}
+
+.about-eyebrow-center {
+  font-size: clamp(0.6rem, 0.6vw + 0.25vh, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: clamp(0.25rem, 0.6vh, 0.6rem);
+}
+
+.about-title-dark {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.1vw + 0.5vh, 1.85rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin-bottom: clamp(0.4rem, 1vh, 1.25rem);
+  color: #112D4E;
+}
+
+.about-title-dark strong {
+  text-decoration: underline;
+  text-decoration-color: var(--teal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  color: #112D4E;
+}
+
+.about-title-light {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.2vw + 0.5vh, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: clamp(0.25rem, 0.8vh, 0.75rem);
+  line-height: 1.15;
+}
+
+.about-text {
+  font-size: clamp(0.68rem, 0.75vw + 0.3vh, 0.98rem);
+  line-height: 1.4;
+  opacity: 0.95;
+  max-width: 32ch;
+  margin: 0 auto;
+}
+
+.about-text-dim {
+  font-size: clamp(0.65rem, 0.7vw + 0.25vh, 0.92rem);
+  line-height: 1.38;
+  color: #DBE2EF;
+  opacity: 0.92;
+  max-width: 28ch;
+  margin: 0 auto;
+}
+
+.about-quote {
+  font-family: var(--font-display);
+  font-size: clamp(0.64rem, 0.72vw + 0.3vh, 1.08rem);
+  line-height: 1.32;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: clamp(0.35rem, 1vh, 1rem);
+  text-transform: uppercase;
+  max-width: 38ch;
+}
+
+.quote-author strong {
+  font-size: clamp(0.6rem, 0.65vw + 0.2vh, 0.82rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.quote-author span {
+  font-size: clamp(0.52rem, 0.55vw + 0.15vh, 0.72rem);
+  opacity: 0.8;
+}
+
+/* Progress Bars */
+.progress-bars {
+  width: 100%;
+  display: grid;
+  gap: clamp(0.25rem, 0.7vh, 0.8rem);
+}
+
+.progress-item {
+  width: 100%;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: clamp(0.55rem, 0.6vw + 0.2vh, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #334155;
+  margin-bottom: clamp(0.15rem, 0.3vh, 0.35rem);
+}
+
+.progress-track {
+  width: 100%;
+  height: clamp(2px, 0.4vh, 3px);
+  background: var(--line);
+  position: relative;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--teal);
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 999px;
+}
+
+/* Motto Icon */
+.motto-icon {
+  width: clamp(32px, 4vh, 56px);
+  height: clamp(32px, 4vh, 56px);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: clamp(0.3rem, 0.8vh, 0.85rem);
+  color: #facc15;
+}
+
+.motto-icon svg {
+  width: clamp(18px, 2.4vh, 32px);
+  height: clamp(18px, 2.4vh, 32px);
+}
+
+/* Milestone Numbers */
+.milestone-number {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.5vw + 2.5vh, 6.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #facc15;
+  margin-bottom: clamp(0.15rem, 0.4vh, 0.35rem);
+}
+
+/* Portfolio Overlay */
+.portfolio-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: background 0.3s ease;
+  backdrop-filter: blur(1.5px);
+}
+
+.tile-image:hover .portfolio-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.portfolio-link {
+  font-family: var(--font-display);
+  font-size: clamp(0.75rem, 0.9vw + 0.4vh, 1.25rem);
+  font-weight: 700;
+  color: #112D4E;
+  background: #facc15;
+  padding: clamp(0.4rem, 0.8vh, 0.75rem) clamp(0.75rem, 1.5vw, 1.35rem);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.portfolio-link .arrow {
+  transition: transform 0.25s var(--ease-out);
+}
+
+.portfolio-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(250, 204, 21, 0.4);
+}
+
+.portfolio-link:hover .arrow {
+  transform: translateX(4px);
+}

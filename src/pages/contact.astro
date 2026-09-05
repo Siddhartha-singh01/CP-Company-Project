@@ -1,0 +1,120 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { WHATSAPP_LINK, CALENDLY_LINK } from "../data/content";
+---
+
+<BaseLayout
+  title="Contact ScaleUpSocial | Book a Meeting & WhatsApp"
+  description="Book a 30 minute strategy meeting or WhatsApp ScaleUpSocial for social media management and content creation support in India."
+  activePath="/contact"
+>
+  <main>
+    <PageHero
+      eyebrow="Contact & Booking"
+      title="Book a 30 min meeting or WhatsApp us"
+      lede="Schedule a 1 on 1 strategy call directly on Calendly, or message us on WhatsApp for a quick social media audit."
+      primaryHref={CALENDLY_LINK}
+      primaryLabel="Book a Meeting"
+      secondaryHref={WHATSAPP_LINK}
+      secondaryLabel="WhatsApp us"
+    />
+
+    <!-- Dedicated Book a Meeting Section -->
+    <section class="section section-tight" style="padding-bottom: 0;">
+      <div class="container">
+        <div class="cta-panel" data-reveal style="background: linear-gradient(145deg, #112D4E 0%, #1A4272 100%); border: 1px solid rgba(63, 114, 175, 0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+          <div>
+            <p class="eyebrow" style="color: #3F72AF;">Direct Calendar Access</p>
+            <h2 class="display-sm" style="color: #ffffff;">Book a 30 Minute Strategy Meeting</h2>
+            <p class="lede" style="color: #DBE2EF; margin-top: 1rem;">
+              Select a date and time directly on Calendly that works best for your schedule. We will evaluate your current content pipeline, competitive positioning, and high ROI growth loops.
+            </p>
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: center; align-items: stretch; gap: 1rem;">
+            <a 
+              class="pill pill-yellow" 
+              href={CALENDLY_LINK} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style="padding: 1.15rem 2rem; font-size: 1rem; font-weight: 700; justify-content: center; width: 100%;"
+            >
+              Book a Meeting on Calendly <span class="arrow">↗</span>
+            </a>
+            <p style="font-size: 0.85rem; color: #DBE2EF; opacity: 0.85; text-align: center;">
+              Free 30 min consultation · Instant Google Meet / Zoom confirmation
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="cta-panel" data-reveal>
+          <div>
+            <p class="eyebrow">Direct messaging</p>
+            <h2 class="display-sm">Chat with us on WhatsApp</h2>
+            <p class="lede" style="margin-top:1rem">
+              Fastest path for startups, growing companies, and entrepreneurs in India and globally.
+            </p>
+            <div class="hero-actions" style="margin-top:1.25rem">
+              <a class="pill pill-teal" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                Open WhatsApp <span class="arrow">↗</span>
+              </a>
+            </div>
+            <ul class="problem-list" style="margin-top:1.5rem">
+              <li class="problem-item">
+                <i>1</i>
+                <div>
+                  <h3>Send brand Instagram or website</h3>
+                  <p>We check positioning, creative gaps, and conversion opportunities.</p>
+                </div>
+              </li>
+              <li class="problem-item">
+                <i>2</i>
+                <div>
+                  <h3>Get 3 content ideas</h3>
+                  <p>Specific to your business, never a copy paste agency template.</p>
+                </div>
+              </li>
+              <li class="problem-item">
+                <i>3</i>
+                <div>
+                  <h3>Choose a plan</h3>
+                  <p>Starter, Momentum, or Scale based on your capacity and growth goals.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <form class="cta-form" id="lead-form">
+            <label>
+              Work email
+              <input type="email" name="email" required placeholder="you@company.com" autocomplete="email" />
+            </label>
+            <label>
+              Company or brand name
+              <input type="text" name="company" required placeholder="Company or Brand name" autocomplete="organization" />
+            </label>
+            <label>
+              What do you need?
+              <select name="goal" required>
+                <option value="" disabled selected>Select a focus</option>
+                <option>Social media management</option>
+                <option>Content creation</option>
+                <option>Instagram marketing</option>
+                <option>Momentum plan details</option>
+                <option>Not sure yet</option>
+              </select>
+            </label>
+            <button class="pill pill-teal" type="submit">Request callback note <span class="arrow">↗</span></button>
+            <p class="form-note">
+              Prefer chat?
+              <a class="wa-link" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

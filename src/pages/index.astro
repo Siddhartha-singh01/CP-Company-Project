@@ -1,0 +1,290 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ServiceIcon from "../components/ServiceIcon.astro";
+import ScrollExpand from "../components/ScrollExpand.astro";
+import {
+  brands,
+  services,
+  pricingPlans,
+  nichePriorities,
+  WHATSAPP_LINK,
+  CALENDLY_LINK,
+} from "../data/content";
+import "../styles/matrix.css";
+import Scanner from "../components/Scanner.astro";
+import ProofOfWork from "../components/ProofOfWork.astro";
+---
+
+<BaseLayout
+  title="Social Media Management Agency India | ScaleUpSocial"
+  description="Premier social media management and content creation agency in India. End to end Instagram marketing, viral Reels, and growth strategy for startups, companies, teams, and entrepreneurs."
+  activePath="/"
+>
+  <main>
+    <section class="hero container-wide" style="position: relative; overflow: hidden;">
+      <Scanner />
+
+      <div class="hero-new-centered" style="position: relative; z-index: 1;">
+
+        <h1 class="hero-display-centered" data-reveal data-reveal-delay="1">
+          Where Stunning <span class="text-gold">Design</span> Meets<br/><span class="text-gold">Flawless</span> Functionality
+        </h1>
+        
+        <p class="hero-lede-centered" data-reveal data-reveal-delay="2">
+          We craft high converting websites, apps, and brands for startups, agencies, and businesses that refuse to settle for good enough.
+        </p>
+        
+        <div class="hero-actions-centered" data-reveal data-reveal-delay="3">
+          <a class="pill pill-yellow" href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" style="padding: 1.1rem 2.5rem; font-size: 0.95rem; font-weight: 600;">
+            Book a Meeting <span class="arrow">↗</span>
+          </a>
+        </div>
+        
+        <div class="hero-carousel-container" data-reveal data-reveal-delay="4">
+          <img src="/images/image%201.png" alt="Office Collaboration" class="hero-carousel-img active" />
+          <img src="/images/image%202.jpg" alt="Design Team" class="hero-carousel-img" />
+          <img src="/images/image%203.png" alt="Creative Session" class="hero-carousel-img" />
+          <img src="/images/image%204.jpg" alt="Agency Work" class="hero-carousel-img" />
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="marquee-wrap section-tight" aria-label="Clients">
+      <p class="marquee-label">Built for ambitious startups, fast growing companies, and modern founders</p>
+      <div class="marquee">
+        <div class="marquee-track">
+          {[...brands, ...brands].map((b) => <span>{b}</span>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-band section-tight">
+      <div class="container stats-grid">
+        <div class="stat-card" data-reveal>
+          <strong>10M+</strong>
+          <span>Organic views generated across brand campaigns</span>
+        </div>
+        <div class="stat-card" data-reveal data-reveal-delay="1">
+          <strong>3 to 4×</strong>
+          <span>Average increase in qualified inbound inquiries</span>
+        </div>
+        <div class="stat-card" data-reveal data-reveal-delay="2">
+          <strong>$0</strong>
+          <span>Wasted on fake bots, purchased followers, or spam</span>
+        </div>
+        <div class="stat-card" data-reveal data-reveal-delay="3">
+          <strong>1 partner</strong>
+          <span>Full service content creation & Instagram growth</span>
+        </div>
+      </div>
+    </section>
+
+    <ScrollExpand
+      src="/images/studio-showcase.jpg"
+      alt="ScaleUpSocial Studio & Content Production"
+      title="Production quality that turns viewers into <strong>paying clients and loyal advocates.</strong>"
+      scrollHint="Scroll to expand"
+      startWidth={78}
+      startHeight={76}
+      startRadius={20}
+      endRadius={0}
+      mediaZoom={1.15}
+      scrollDistance={0.5}
+      holdDistance={0}
+      overlayScrim={0.65}
+    >
+      <div class="scroll-expand__overlay-inner">
+        <span class="scroll-expand__overlay-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+          Studio Production
+        </span>
+        <h2 class="scroll-expand__overlay-title">
+          We script, shoot, and edit. <br />
+          <span>You focus on scaling your business.</span>
+        </h2>
+        <p class="scroll-expand__overlay-desc">
+          End to end creative direction, broadcast tier cinema multi cam setups, and viral editing engineered for rapid organic distribution.
+        </p>
+        <div class="scroll-expand__metrics">
+          <div class="scroll-expand__metric">
+            <strong>10M+</strong>
+            <span>Organic Viewers</span>
+          </div>
+          <div class="scroll-expand__metric">
+            <strong>85%+</strong>
+            <span>Video Hold Rate</span>
+          </div>
+          <div class="scroll-expand__metric">
+            <strong>14 Days</strong>
+            <span>To First Batch Live</span>
+          </div>
+        </div>
+      </div>
+    </ScrollExpand>
+
+    <section class="section" id="niches" style="padding-top: 1.5rem; background: var(--ink); position: relative; z-index: 2;">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Who we partner with</p>
+          <h2 class="display-sm">Built for high growth teams and visionary founders</h2>
+          <p class="lede">
+            Whether you are a scaling startup, an ambitious entrepreneur, a modern D2C brand, or an established company, we build the engine that commands category attention and drives real revenue.
+          </p>
+        </div>
+        <div class="link-cards">
+          {
+            nichePriorities.map((n, i) => (
+              <a class="link-card" href={n.href} data-reveal data-reveal-delay={String(i + 1)}>
+                <h3>{n.title}</h3>
+                <p>{n.body}</p>
+                <span>Learn more ↗</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="services">
+      <div class="container text-center" style="margin-bottom: 4rem;">
+        <h2 class="display-sm" data-reveal style="color: var(--white); font-weight: 500;">Showcase of Selected Work</h2>
+      </div>
+      <div class="container">
+        <div class="showcase-grid">
+          <!-- Item 1 -->
+          <div class="showcase-card" data-reveal>
+            <div class="showcase-img-wrap">
+              <img src="/images/post-01.jpg" alt="Content Creation Agency" />
+            </div>
+            <h3 class="showcase-title">Content Creation Agency</h3>
+            <div class="showcase-pills">
+              <span class="showcase-pill">Reel scripting</span>
+              <span class="showcase-pill">Educational posts</span>
+            </div>
+          </div>
+          <!-- Item 2 -->
+          <div class="showcase-card offset-card" data-reveal data-reveal-delay="1">
+            <div class="showcase-img-wrap">
+              <img src="/images/post-03.jpg" alt="Social Media Management" />
+            </div>
+            <h3 class="showcase-title">Social Media Management</h3>
+            <div class="showcase-pills">
+              <span class="showcase-pill">Scheduling</span>
+              <span class="showcase-pill">DM hygiene</span>
+            </div>
+          </div>
+          <!-- Item 3 -->
+          <div class="showcase-card" data-reveal>
+            <div class="showcase-img-wrap">
+              <img src="/images/showcase-04.jpg" alt="Instagram Marketing" />
+            </div>
+            <h3 class="showcase-title">Instagram Marketing</h3>
+            <div class="showcase-pills">
+              <span class="showcase-pill">Profile positioning</span>
+              <span class="showcase-pill">Offer Reels</span>
+            </div>
+          </div>
+          <!-- Item 4 -->
+          <div class="showcase-card offset-card" data-reveal data-reveal-delay="1">
+            <div class="showcase-img-wrap">
+              <img src="/images/sokase%202.jpg" alt="Social Media Strategy" />
+            </div>
+            <h3 class="showcase-title">Social Media Strategy</h3>
+            <div class="showcase-pills">
+              <span class="showcase-pill">Messaging pillars</span>
+              <span class="showcase-pill">30 day plan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verified Proof of Work Section -->
+    <ProofOfWork id="proof-of-work" />
+
+    <section class="section section-paper" id="pricing-preview" style="background: #F9F7F7;">
+      <div class="container">
+        <div class="pricing-top-row" data-reveal>
+          <div class="pricing-top-left">
+            <p class="eyebrow" style="color: var(--teal); margin-bottom: 1rem;">STRAIGHTFORWARD INVESTMENT</p>
+            <h2 class="display-sm" style="color: var(--ink); margin-bottom: 1.5rem; line-height: 1.05;">
+              Good work, without the <br/><span style="color: var(--teal);">agency tax.</span>
+            </h2>
+          </div>
+          <div class="pricing-top-right">
+            <p style="color: var(--grey-3); font-size: 0.95rem;">All plans are month to month.<br/>GST applicable where required.</p>
+          </div>
+        </div>
+        <div class="pricing-grid">
+          {
+            pricingPlans.map((plan, i) => (
+              <article class={`price-card ${plan.featured ? "featured" : ""}`} data-reveal data-reveal-delay={String(i + 1)}>
+                {plan.badge && <span class="price-badge">{plan.badge}</span>}
+                <h3>{plan.name}</h3>
+                <p class="price-blurb">{plan.blurb}</p>
+                <div class="price-amount">
+                  {plan.price}
+                  <span class="price-period">{plan.period}</span>
+                </div>
+                <hr class="price-divider" />
+                <ul class="price-features">
+                  {plan.points.map((p) => (
+                    <li>
+                      <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 5.5L4.5 9L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+                <a class={`pill ${plan.featured ? "pill-yellow" : "pill-outline-dark"}`} href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" style="border-radius: 8px;">
+                  Choose {plan.name} <span class="arrow">↗</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <section class="section final-cta">
+      <div class="container">
+        <div class="cta-panel" data-reveal>
+          <div>
+            <p class="eyebrow">Next step</p>
+            <h2 class="display-sm">Want a quick Instagram audit for your brand or startup?</h2>
+            <p class="lede">
+              Message us on WhatsApp with your website or Instagram handle. We will reply with 3 high impact content ideas tailored to your audience, not a generic sales pitch.
+            </p>
+          </div>
+          <div class="cta-form" style="align-content:center; gap: 0.75rem;">
+            <a class="pill pill-yellow" href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" style="justify-content:center;width:100%">
+              Book a 30 Min Meeting <span class="arrow">↗</span>
+            </a>
+            <a class="pill pill-teal" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" style="justify-content:center;width:100%">
+              WhatsApp us <span class="arrow">↗</span>
+            </a>
+            <p class="form-note">Or use the <a class="wa-link" href="/contact">contact form</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Hero Image Carousel Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const carouselImgs = document.querySelectorAll('.hero-carousel-img');
+      if (carouselImgs.length === 0) return;
+      
+      let currentIndex = 0;
+      
+      setInterval(() => {
+        carouselImgs[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % carouselImgs.length;
+        carouselImgs[currentIndex].classList.add('active');
+      }, 5000); // Change image every 5 seconds
+    });
+  </script>
+</BaseLayout>

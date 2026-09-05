@@ -1,0 +1,371 @@
+---
+// RagChatbot.astro
+import { services, pricingPlans, faqs, nichePriorities, CALENDLY_LINK, WHATSAPP_LINK } from '../data/content';
+
+const dynamicKnowledge = [
+  {
+    keywords: ['meeting', 'call', 'book', 'schedule', 'calendly', 'appointment', 'talk', 'consultation'],
+    answer: `You can directly book a 30 minute 1 on 1 strategy meeting with our team on Calendly here: [Book a 30 Min Meeting](${CALENDLY_LINK})! Prefer quick chat? Reach us on [WhatsApp](${WHATSAPP_LINK}).`
+  },
+  ...services.map(s => ({
+    keywords: s.title.toLowerCase().split(' ').concat(s.slug),
+    answer: `**${s.title}**: ${s.body} ${s.detail}`
+  })),
+  ...pricingPlans.map(p => ({
+    keywords: p.name.toLowerCase().split(' ').concat(['price', 'cost', 'pricing', 'plan', p.name.toLowerCase()]),
+    answer: `The **${p.name}** plan costs ${p.price}${p.period}. It's best for ${p.blurb}.`
+  })),
+  ...faqs.map(f => ({
+    keywords: f.q.toLowerCase().split(' '),
+    answer: `**${f.q}**\n${f.a}`
+  })),
+  ...nichePriorities.map(n => ({
+    keywords: n.title.toLowerCase().split(' '),
+    answer: `For **${n.title}**, our approach is: ${n.body}.`
+  }))
+];
+---
+<div id="rag-chatbot-container" class="rag-chatbot-closed">
+  <!-- Chat Window -->
+  <div class="rag-window" aria-hidden="true">
+    <div class="rag-header">
+      <div class="rag-header-info">
+        <img src="/images/jenny.jpg" class="rag-logo" alt="Jenny" style="border-radius: 50%; object-fit: cover;" />
+        <div>
+          <h3>Jenny</h3>
+          <span>Ask me about our services!</span>
+        </div>
+      </div>
+      <button id="rag-close" aria-label="Close chat">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <div class="rag-messages" id="rag-messages">
+      <div class="message bot">
+        <div class="msg-bubble">Hi there! I'm Jenny, your ScaleUp AI assistant. How can I help you understand our services today?</div>
+      </div>
+    </div>
+    
+    <form class="rag-input-area" id="rag-form">
+      <input type="text" id="rag-input" placeholder="Type your question..." autocomplete="off" required />
+      <button type="submit" aria-label="Send message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- Floating Button -->
+  <button id="rag-trigger" aria-label="Open chat">
+    <img src="/images/jenny.jpg" class="icon-chat" alt="Chat with Jenny" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  </button>
+</div>
+
+<style>
+  #rag-chatbot-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    font-family: var(--font-sans);
+  }
+
+  /* Trigger Button */
+  #rag-trigger {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #112D4E;
+    color: var(--teal);
+    border: 2px solid var(--teal);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  #rag-trigger:hover {
+    transform: scale(1.05);
+    background: #1a2333;
+  }
+
+  #rag-trigger .icon-close { 
+    display: none; 
+    position: absolute;
+  }
+  
+  .rag-chatbot-open #rag-trigger .icon-chat { display: none; }
+  .rag-chatbot-open #rag-trigger .icon-close { display: block; }
+  
+  /* Chat Window */
+  .rag-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 380px;
+    height: 600px;
+    max-height: calc(100vh - 120px);
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.95);
+    transform-origin: bottom right;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .rag-chatbot-open .rag-window {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0) scale(1);
+  }
+
+  .rag-header {
+    background: #112D4E;
+    color: #fff;
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rag-header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rag-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .rag-header-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    color: #fff;
+  }
+
+  .rag-header-info span {
+    font-size: 0.75rem;
+    color: var(--teal);
+    opacity: 0.9;
+  }
+
+  #rag-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.2s;
+  }
+  #rag-close:hover { color: #fff; }
+
+  /* Messages Area */
+  .rag-messages {
+    flex: 1;
+    padding: 1.25rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: #F9F7F7;
+  }
+
+  .message {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+  }
+
+  .message.bot {
+    align-self: flex-start;
+  }
+
+  .message.user {
+    align-self: flex-end;
+  }
+
+  .msg-bubble {
+    padding: 0.85rem 1rem;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .message.bot .msg-bubble {
+    background: #ffffff;
+    color: #0a0a0a;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  }
+
+  .message.user .msg-bubble {
+    background: var(--teal);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Input Area */
+  .rag-input-area {
+    padding: 1rem;
+    background: #ffffff;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  #rag-input {
+    flex: 1;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 999px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #F9F7F7;
+  }
+  
+  #rag-input:focus {
+    border-color: var(--teal);
+  }
+
+  .rag-input-area button {
+    background: #112D4E;
+    color: #fff;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .rag-input-area button:hover {
+    background: var(--teal);
+  }
+
+  @media (max-width: 480px) {
+    .rag-window {
+      width: calc(100vw - 2rem);
+      right: -1rem;
+      bottom: 70px;
+    }
+  }
+</style>
+
+<script define:vars={{ dynamicKnowledge }}>
+  // Simple Client-Side "RAG" Knowledge Base
+  const baseKnowledge = [
+    {
+      keywords: ["time", "how long", "fast", "onboard"],
+      answer: "Our onboarding is fast! Typically, your first content goes live within **10 to 14 days** of partnering with us."
+    },
+    {
+      keywords: ["location", "where", "city", "bengaluru", "bangalore"],
+      answer: "We work with clients across India and globally, providing remote content editing, multi channel social management, and strategic production for fast growing businesses everywhere."
+    },
+    {
+      keywords: ["contact", "whatsapp", "call", "reach"],
+      answer: "You can reach us directly via [WhatsApp](https://wa.me/917357227345) or [Book a Meeting](https://calendly.com/scaleupsocial7/30min). We offer direct support to all our clients!"
+    },
+    {
+      keywords: ["results", "reviews", "case study", "success"],
+      answer: "Our clients see incredible results! From a 4.2x surge in profile visits for high growth tech ventures to 62.4% non follower discovery breakouts for consumer brands, we focus on building real authority and qualified inbound pipeline."
+    }
+  ];
+
+  const knowledgeBase = [...baseKnowledge, ...dynamicKnowledge];
+
+  const defaultAnswer = "I'm still learning! While I might not have the exact answer, you can find out everything by exploring our Services and Pricing pages, or by clicking the 'WhatsApp us' button to talk to a human!";
+
+  const container = document.getElementById('rag-chatbot-container');
+  const trigger = document.getElementById('rag-trigger');
+  const closeBtn = document.getElementById('rag-close');
+  const form = document.getElementById('rag-form');
+  const input = document.getElementById('rag-input');
+  const messagesArea = document.getElementById('rag-messages');
+
+  // Toggle Chat
+  const toggleChat = () => {
+    container.classList.toggle('rag-chatbot-open');
+    if (container.classList.contains('rag-chatbot-open')) {
+      input.focus();
+    }
+  };
+
+  trigger.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', toggleChat);
+
+  // Add Message to UI
+  const addMessage = (text, sender) => {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${sender}`;
+    
+    // Simple markdown bold parsing
+    const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    msgDiv.innerHTML = `<div class="msg-bubble">${formattedText}</div>`;
+    messagesArea.appendChild(msgDiv);
+    messagesArea.scrollTop = messagesArea.scrollHeight;
+  };
+
+  // Pseudo-RAG Logic
+  const generateResponse = (userQuery) => {
+    const query = userQuery.toLowerCase();
+    
+    // Find the best match based on keyword intersection
+    let bestMatch = null;
+    let maxMatches = 0;
+
+    for (const entry of knowledgeBase) {
+      let matches = 0;
+      for (const kw of entry.keywords) {
+        if (query.includes(kw)) matches++;
+      }
+      if (matches > maxMatches) {
+        maxMatches = matches;
+        bestMatch = entry;
+      }
+    }
+
+    if (bestMatch && maxMatches > 0) {
+      return bestMatch.answer;
+    }
+    
+    return defaultAnswer;
+  };
+
+  // Handle Submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Add user message
+    addMessage(text, 'user');
+    input.value = '';
+
+    // Simulate network delay for RAG retrieval & generation
+    setTimeout(() => {
+      const response = generateResponse(text);
+      addMessage(response, 'bot');
+    }, 600 + Math.random() * 800);
+  });
+</script>

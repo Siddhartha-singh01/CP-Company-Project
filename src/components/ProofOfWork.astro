@@ -1,0 +1,390 @@
+---
+// ProofOfWork.astro - Verified Proof of Work & Performance Showcase
+interface Props {
+  id?: string;
+  className?: string;
+}
+
+const { id = "proof-of-work", className = "" } = Astro.props;
+---
+
+<section class={`section proof-section ${className}`} id={id}>
+  <div class="container">
+    <!-- Header -->
+    <div class="proof-header text-center" data-reveal>
+
+      <h2 class="display-sm proof-main-title">
+        Real Growth. Real Reach. <span class="text-gold">Verified Millions.</span>
+      </h2>
+      <p class="lede proof-lede">
+        We don't deal in empty promises or vanity follower claims. Below is unedited, real-time backend proof from our actual client campaigns, showing multimillion reel views, viral breakout spikes, and aggressive organic non follower discovery.
+      </p>
+    </div>
+
+    <!-- Metric Summary Ribbon -->
+    <div class="proof-metrics-ribbon" data-reveal data-reveal-delay="1">
+      <div class="proof-metric-stat">
+        <div class="stat-num text-gold">4.44M+</div>
+        <div class="stat-lbl">Verified 90 Day Reel Views</div>
+      </div>
+      <div class="proof-metric-stat">
+        <div class="stat-num text-gold">1.92M+</div>
+        <div class="stat-lbl">Unique Accounts Reached</div>
+      </div>
+      <div class="proof-metric-stat">
+        <div class="stat-num text-gold">62.4%</div>
+        <div class="stat-lbl">Non Follower Outbound Reach</div>
+      </div>
+      <div class="proof-metric-stat">
+        <div class="stat-num text-gold">300K</div>
+        <div class="stat-lbl">Peak Views on Single Viral Reels</div>
+      </div>
+    </div>
+
+    <!-- Proof Case Studies Grid -->
+    <div class="proof-cases-grid">
+
+      <!-- Case 1: Multimillion Creator Campaign -->
+      <article class="proof-case-card" data-reveal data-reveal-delay="1">
+        <div class="proof-case-head">
+          <div class="proof-tags">
+            <span class="proof-tag gold-tag">Featured Proof</span>
+            <span class="proof-tag">Fitness & Creator</span>
+            <span class="proof-tag">Multimillion Reach</span>
+            <span class="proof-tag">100% Organic</span>
+          </div>
+          <h3 class="proof-case-title">
+            Scaling an Athlete Brand to <span class="text-gold">4.44M+ Reel Views</span> in 90 Days
+          </h3>
+          <p class="proof-case-desc">
+            Direct analytics from Instagram Professional Dashboard for high performance fitness creator <strong>@whoim_w...</strong>. Proof of consistent, compounding organic distribution with zero paid advertising.
+          </p>
+        </div>
+
+        <!-- Interactive Timeline Switcher & Screenshot -->
+        <div class="proof-visual-wrapper">
+          <div class="proof-tabs-bar">
+            <span class="proof-tabs-label">View Timeframe:</span>
+            <div class="proof-tab-buttons" role="tablist">
+              <button 
+                type="button" 
+                class="proof-tab-btn active" 
+                data-timeframe="90d"
+                data-img="/images/proof/proof-reels-90d.jpg"
+                data-views="44,43,168"
+                data-views-sub="4.44 Million+ Views"
+                data-viewers="19,24,067"
+                data-viewers-sub="1.92M Accounts Reached"
+                data-followers="+3,300+"
+                data-followers-sub="100% Organic"
+                data-note="90 Day Total: Sustained algorithmic traction with recurrent peaks nearing 300,000 views per spike."
+              >
+                90 Days (4.44M Views)
+              </button>
+              <button 
+                type="button" 
+                class="proof-tab-btn" 
+                data-timeframe="60d"
+                data-img="/images/proof/proof-reels-60d.jpg"
+                data-views="32,59,379"
+                data-views-sub="3.25 Million+ Views"
+                data-viewers="15,12,677"
+                data-viewers-sub="1.51M Accounts Reached"
+                data-followers="+2,300+"
+                data-followers-sub="100% Organic"
+                data-note="60 Day Midterm: Rapid acceleration crossing 3.25 Million views with 1.51M individual reach."
+              >
+                60 Days (3.25M Views)
+              </button>
+              <button 
+                type="button" 
+                class="proof-tab-btn" 
+                data-timeframe="30d"
+                data-img="/images/proof/proof-reels-30d.jpg"
+                data-views="13,81,709"
+                data-views-sub="1.38 Million+ Views"
+                data-viewers="7,18,830"
+                data-viewers-sub="718K Accounts Reached"
+                data-followers="+868"
+                data-followers-sub="100% Organic"
+                data-note="30 Day Launch: Breakthrough viral spike crossing 170K views within first batch of high retention reels."
+              >
+                30 Days (1.38M Views)
+              </button>
+            </div>
+          </div>
+
+          <div class="proof-interactive-stage">
+            <div class="proof-phone-frame">
+              <div class="proof-phone-header">
+                <span class="proof-phone-speaker"></span>
+                <span class="proof-verified-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                  Verified In-App Insights
+                </span>
+              </div>
+              <div class="proof-img-container" data-action="zoom">
+                <img 
+                  id="case1-display-img" 
+                  src="/images/proof/proof-reels-90d.jpg" 
+                  alt="Verified Instagram Insights - 4.44M Reel Views"
+                  class="proof-display-img" 
+                  loading="lazy"
+                />
+                <div class="proof-zoom-hint">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                  Click to inspect full screenshot
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Highlights for selected timeframe -->
+            <div class="proof-details-panel">
+              <div class="proof-stats-ticker">
+                <div class="ticker-box">
+                  <span class="ticker-label">Total Reel Views</span>
+                  <strong class="ticker-val text-gold" id="case1-views">44,43,168</strong>
+                  <span class="ticker-sub" id="case1-views-sub">4.44 Million+ Views</span>
+                </div>
+                <div class="ticker-box">
+                  <span class="ticker-label">Total Viewers Reached</span>
+                  <strong class="ticker-val text-gold" id="case1-viewers">19,24,067</strong>
+                  <span class="ticker-sub" id="case1-viewers-sub">1.92M Accounts Reached</span>
+                </div>
+                <div class="ticker-box">
+                  <span class="ticker-label">Net Follower Growth</span>
+                  <strong class="ticker-val text-gold" id="case1-followers">+3,300+</strong>
+                  <span class="ticker-sub" id="case1-followers-sub">100% Organic</span>
+                </div>
+              </div>
+
+              <div class="proof-note-box">
+                <p id="case1-note">
+                  90 Day Total: Sustained algorithmic traction with recurrent peaks nearing 300,000 views per spike.
+                </p>
+              </div>
+
+              <div class="proof-strategy-breakdown">
+                <h4 class="breakdown-title">Strategy & Execution Highlights:</h4>
+                <ul class="breakdown-list">
+                  <li>
+                    <strong class="text-gold">1.5s Hook Architecture:</strong> Scripted visual openers around tension and athletic performance (e.g. 180kg deadlift setups), generating instant curiosity.
+                  </li>
+                  <li>
+                    <strong class="text-gold">High Retention Audio & Pacing:</strong> Paired intense gym visuals with rising audio tracks to push completion rate above 85%.
+                  </li>
+                  <li>
+                    <strong class="text-gold">Flywheel Compounding:</strong> Batch produced 3 to 4 high impact assets weekly, allowing the Instagram recommendation engine to continuously resurface older reels.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- Case 2: Organic Discovery & Non Follower Surge -->
+      <article class="proof-case-card" data-reveal data-reveal-delay="2">
+        <div class="proof-case-head">
+          <div class="proof-tags">
+            <span class="proof-tag gold-tag">Algorithmic Breakthrough</span>
+            <span class="proof-tag">Fast Growing Brand</span>
+            <span class="proof-tag">Non Follower Reach</span>
+            <span class="proof-tag">Viral Discovery</span>
+          </div>
+          <h3 class="proof-case-title">
+            From Stagnant Reach to <span class="text-gold">62.4% Outbound Discovery</span> & 40K+ Views
+          </h3>
+          <p class="proof-case-desc">
+            Instagram Professional Insights demonstrating an organic hockey stick breakout: breaking out of the existing follower bubble to capture thousands of new prospective clients.
+          </p>
+        </div>
+
+        <div class="proof-visual-wrapper">
+          <div class="proof-interactive-stage">
+            <div class="proof-phone-frame">
+              <div class="proof-phone-header">
+                <span class="proof-phone-speaker"></span>
+                <span class="proof-verified-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                  Verified In-App Insights
+                </span>
+              </div>
+              <div class="proof-img-container" data-action="zoom">
+                <img 
+                  src="/images/proof/proof-growth-surge.jpg" 
+                  alt="Instagram Professional Dashboard showing 39.8K Impressions and 62.4% non follower discovery breakout" 
+                  class="proof-display-img" 
+                  loading="lazy"
+                />
+                <button class="proof-zoom-btn" aria-label="Zoom proof image" title="Click to view full size">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="proof-details-panel">
+              <div class="proof-stats-ticker">
+                <div class="ticker-box">
+                  <span class="ticker-label">Total Impressions</span>
+                  <strong class="ticker-val text-gold">39,812</strong>
+                  <span class="ticker-sub">+1,400% vs Previous</span>
+                </div>
+                <div class="ticker-box">
+                  <span class="ticker-label">Non Follower Reach</span>
+                  <strong class="ticker-val text-gold">62.4%</strong>
+                  <span class="ticker-sub">Direct Outbound Discovery</span>
+                </div>
+                <div class="ticker-box">
+                  <span class="ticker-label">Unique Viewers</span>
+                  <strong class="ticker-val text-gold">15,710</strong>
+                  <span class="ticker-sub">Reels: 30,000+ Views</span>
+                </div>
+              </div>
+
+              <div class="proof-note-box">
+                <p>
+                  <strong>The Hockey Stick Breakout:</strong> Content surged dramatically in early August from flatline to 7,700+ daily views as Instagram's recommendation algorithm began aggressively indexing the account.
+                </p>
+              </div>
+
+              <div class="proof-strategy-breakdown">
+                <h4 class="breakdown-title">Strategy & Execution Highlights:</h4>
+                <ul class="breakdown-list">
+                  <li>
+                    <strong class="text-gold">Escape The Follower Bubble:</strong> Most accounts stagnate because their posts are only shown to existing contacts. We redesigned content around problem solving search queries to force feed discovery.
+                  </li>
+                  <li>
+                    <strong class="text-gold">Reels Feed Optimization:</strong> Engineered short 8 to 15 second educational bursts that drove 30K+ views directly from the Reels discovery feed.
+                  </li>
+                  <li>
+                    <strong class="text-gold">Direct Customer Inbound:</strong> High outbound reach immediately translated into genuine profile visits, bio link clicks, and qualified inbound inquiries.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Trust Footer -->
+    <div class="proof-trust-footer" data-reveal>
+      <div class="trust-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3F72AF" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>100% Real Live Campaign Data</span>
+      </div>
+      <div class="trust-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3F72AF" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span>Zero Fake Followers or Artificial Bots</span>
+      </div>
+      <div class="trust-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3F72AF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Repeatable Content Frameworks</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Proof Lightbox Modal -->
+  <div id="proof-lightbox" class="proof-lightbox" aria-hidden="true" role="dialog">
+    <div class="lightbox-overlay" data-close="lightbox"></div>
+    <div class="lightbox-content">
+      <button type="button" class="lightbox-close" data-close="lightbox" aria-label="Close proof preview">
+        &times;
+      </button>
+      <img id="lightbox-img" src="" alt="Full Resolution Proof" class="lightbox-img" />
+      <div class="lightbox-caption" id="lightbox-caption">Verified Analytics Snapshot</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1. Timeframe Switcher for Case 1
+    const tabBtns = document.querySelectorAll(".proof-tab-btn");
+    const displayImg = document.getElementById("case1-display-img") as HTMLImageElement;
+    const viewsEl = document.getElementById("case1-views");
+    const viewsSubEl = document.getElementById("case1-views-sub");
+    const viewersEl = document.getElementById("case1-viewers");
+    const viewersSubEl = document.getElementById("case1-viewers-sub");
+    const followersEl = document.getElementById("case1-followers");
+    const followersSubEl = document.getElementById("case1-followers-sub");
+    const noteEl = document.getElementById("case1-note");
+
+    tabBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const newImg = btn.getAttribute("data-img");
+        const newViews = btn.getAttribute("data-views");
+        const newViewsSub = btn.getAttribute("data-views-sub");
+        const newViewers = btn.getAttribute("data-viewers");
+        const newViewersSub = btn.getAttribute("data-viewers-sub");
+        const newFollowers = btn.getAttribute("data-followers");
+        const newFollowersSub = btn.getAttribute("data-followers-sub");
+        const newNote = btn.getAttribute("data-note");
+
+        if (displayImg && newImg) {
+          displayImg.style.opacity = "0.4";
+          displayImg.style.transform = "scale(0.98)";
+          setTimeout(() => {
+            displayImg.src = newImg;
+            displayImg.style.opacity = "1";
+            displayImg.style.transform = "scale(1)";
+          }, 150);
+        }
+
+        if (viewsEl && newViews) viewsEl.textContent = newViews;
+        if (viewsSubEl && newViewsSub) viewsSubEl.textContent = newViewsSub;
+        if (viewersEl && newViewers) viewersEl.textContent = newViewers;
+        if (viewersSubEl && newViewersSub) viewersSubEl.textContent = newViewersSub;
+        if (followersEl && newFollowers) followersEl.textContent = newFollowers;
+        if (followersSubEl && newFollowersSub) followersSubEl.textContent = newFollowersSub;
+        if (noteEl && newNote) noteEl.textContent = newNote;
+      });
+    });
+
+    // 2. Lightbox Modal Logic
+    const lightbox = document.getElementById("proof-lightbox");
+    const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement;
+    const lightboxCaption = document.getElementById("lightbox-caption");
+    const zoomContainers = document.querySelectorAll('[data-action="zoom"]');
+    const closeElements = document.querySelectorAll('[data-close="lightbox"]');
+
+    zoomContainers.forEach((container) => {
+      container.addEventListener("click", () => {
+        const img = container.querySelector("img") as HTMLImageElement;
+        if (img && lightbox && lightboxImg) {
+          lightboxImg.src = img.src;
+          if (lightboxCaption) {
+            lightboxCaption.textContent = img.alt || "Verified Instagram Insights";
+          }
+          lightbox.classList.add("open");
+          lightbox.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+      });
+    });
+
+    const closeLightbox = () => {
+      if (lightbox) {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+    };
+
+    closeElements.forEach((el) => {
+      el.addEventListener("click", closeLightbox);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightbox?.classList.contains("open")) {
+        closeLightbox();
+      }
+    });
+  });
+</script>
