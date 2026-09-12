@@ -1,5 +1,11 @@
 export const WHATSAPP_NUMBER = "+91 7357227345";
 export const WHATSAPP_LINK = "https://wa.me/917357227345";
+
+export function getWhatsAppLink(message?: string): string {
+  if (!message) return WHATSAPP_LINK;
+  return `https://wa.me/917357227345?text=${encodeURIComponent(message)}`;
+}
+
 export const CALENDLY_LINK = "https://calendly.com/scaleupsocial7/30min";
 export const SITE_NAME = "ScaleUpSocial";
 export const SITE_URL = "https://scaleupsocial.in";
@@ -68,50 +74,71 @@ export const services = [
 
 export const pricingPlans = [
   {
-    id: "starter",
-    name: "Starter",
-    price: "₹4,999",
-    period: "/ month",
-    blurb: "For businesses and creators finding their social footing.",
-    featured: false,
-    badge: null as string | null,
-    points: [
-      "8 branded posts per month",
-      "Content calendar + captions",
-      "Instagram & Facebook",
-      "Monthly performance snapshot"
-    ],
-  },
-  {
-    id: "momentum",
-    name: "Momentum",
+    id: "starter-growth",
+    name: "Starter Growth",
     price: "₹9,999",
     period: "/ month",
-    blurb: "For ambitious brands ready to dominate their category.",
-    featured: true,
-    badge: "MOST CHOSEN",
+    blurb: "Ideal for small and local businesses building an authentic, consistent presence.",
+    bestFor: "Small/local businesses",
+    featured: false,
+    badge: null as string | null,
+    whatsappMessage: "Hi ScaleUpSocial team! 👋 I'm interested in getting started with the Starter Growth plan (₹9,999/month). Here is our brand/Instagram link to review: ",
+    whatsappLink: getWhatsAppLink("Hi ScaleUpSocial team! 👋 I'm interested in getting started with the Starter Growth plan (₹9,999/month). Here is our brand/Instagram link to review: "),
     points: [
-      "12 branded posts per month",
-      "Reels & carousel concepts",
-      "Instagram, Facebook & LinkedIn",
-      "Community response guidance",
-      "Monthly strategy call"
+      "Best for: Small/local businesses",
+      "8 Static posts & 2 Carousels / month",
+      "4 Reels scripts / month",
+      "8 Stories + Captions & Content calendar",
+      "Instagram management & basic research",
+      "Monthly competitor analysis & basic report",
+      "1 Strategy call / month",
+      "Basic content optimization",
     ],
   },
   {
-    id: "scale",
-    name: "Scale",
+    id: "growth-pro",
+    name: "Growth Pro",
     price: "₹14,999",
     period: "/ month",
-    blurb: "For fast growing companies and startups wanting rapid growth.",
-    featured: false,
-    badge: null as string | null,
+    blurb: "Tailored for growing businesses ready for high-retention reach and audience expansion.",
+    bestFor: "Growing businesses",
+    featured: true,
+    badge: "MOST POPULAR",
+    whatsappMessage: "Hi ScaleUpSocial team! 👋 I'd love to get started with the Growth Pro plan (₹14,999/month) for our business. Here is our brand/Instagram link: ",
+    whatsappLink: getWhatsAppLink("Hi ScaleUpSocial team! 👋 I'd love to get started with the Growth Pro plan (₹14,999/month) for our business. Here is our brand/Instagram link: "),
     points: [
-      "20 posts + 4 short form videos",
-      "Multi platform content system",
-      "Campaign & launch support",
-      "Detailed monthly insights",
-      "Priority strategy support"
+      "Best for: Growing businesses",
+      "12 Static posts & 4 Carousels / month",
+      "8 Reels scripts / month",
+      "12 Stories + Captions & Content calendar",
+      "Instagram & basic community management",
+      "Advanced hashtag & keyword research",
+      "Monthly competitor analysis & detailed report",
+      "1 Strategy call / month + Priority support",
+      "Full content optimization included",
+    ],
+  },
+  {
+    id: "brand-accelerator",
+    name: "Brand Accelerator",
+    price: "₹19,999",
+    period: "/ month",
+    blurb: "Designed for established businesses scaling category dominance and conversion volume.",
+    bestFor: "Established businesses",
+    featured: false,
+    badge: "MAX IMPACT",
+    whatsappMessage: "Hi ScaleUpSocial team! 👋 I'm interested in the Brand Accelerator plan (₹19,999/month) for end-to-end social management. Here is our brand/Instagram link: ",
+    whatsappLink: getWhatsAppLink("Hi ScaleUpSocial team! 👋 I'm interested in the Brand Accelerator plan (₹19,999/month) for end-to-end social management. Here is our brand/Instagram link: "),
+    points: [
+      "Best for: Established businesses",
+      "16 Static posts & 4 Carousels / month",
+      "12 Reels scripts / month",
+      "20 Stories + Captions & Content calendar",
+      "Instagram & full community management",
+      "Advanced hashtag & keyword research",
+      "Bi-weekly competitor analysis & advanced report",
+      "2 Strategy calls / month + Priority support",
+      "Advanced growth strategy & optimization",
     ],
   },
 ];
@@ -210,7 +237,7 @@ export const faqs = [
   },
   {
     q: "What does pricing look like?",
-    a: "Our transparent packages start at ₹4,999/mo for Starter, ₹9,999/mo for Momentum (our most popular plan), and ₹14,999/mo for Scale. We also create custom enterprise packages for multi brand companies.",
+    a: "Our transparent packages start at ₹9,999/mo for Starter Growth, ₹14,999/mo for Growth Pro (our most popular plan), and ₹19,999/mo for Brand Accelerator. We also create custom enterprise packages for multi-brand companies.",
   },
   {
     q: "Do you handle all aspects of Instagram marketing?",

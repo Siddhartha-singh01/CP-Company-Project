@@ -1,15 +1,21 @@
 ---
-import { WHATSAPP_LINK, CALENDLY_LINK } from "../data/content";
+import { WHATSAPP_LINK, CALENDLY_LINK, getWhatsAppLink } from "../data/content";
 
 interface Props {
   title?: string;
   lede?: string;
+  whatsappHref?: string;
+  whatsappText?: string;
 }
 
 const {
   title = "Ready for consistent social media management?",
   lede = "Book a 30 minute strategy call on Calendly, or message us on WhatsApp with your Instagram link for a quick audit.",
+  whatsappHref,
+  whatsappText,
 } = Astro.props;
+
+const finalWhatsAppHref = whatsappHref || (whatsappText ? getWhatsAppLink(whatsappText) : WHATSAPP_LINK);
 ---
 
 <section class="section final-cta">
@@ -32,7 +38,7 @@ const {
         </a>
         <a
           class="pill pill-teal"
-          href={WHATSAPP_LINK}
+          href={finalWhatsAppHref}
           target="_blank"
           rel="noopener noreferrer"
           style="justify-content:center;width:100%"

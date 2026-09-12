@@ -2,20 +2,20 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import ContactBand from "../components/ContactBand.astro";
-import { pricingPlans, WHATSAPP_LINK } from "../data/content";
+import { pricingPlans, WHATSAPP_LINK, getWhatsAppLink } from "../data/content";
 ---
 
 <BaseLayout
   title="Social Media Management Pricing India | ScaleUpSocial"
-  description="Transparent social media management and content creation pricing. Momentum is the most chosen plan for fast growing companies and founders."
+  description="Transparent social media management and content creation pricing. Starter Growth, Growth Pro, and Brand Accelerator plans designed to scale your business."
   activePath="/pricing"
 >
   <main>
     <PageHero
       eyebrow="Pricing"
       title="Pick a plan that matches your growth goals"
-      lede="Starter for lean testing. Momentum for complete social media management plus content creation. Scale for high growth teams and multi brand companies."
-      primaryHref={WHATSAPP_LINK}
+      lede="Starter Growth for local and early-stage businesses. Growth Pro for scaling brands wanting rapid reach. Brand Accelerator for established businesses ready to dominate."
+      primaryHref={getWhatsAppLink("Hi ScaleUpSocial team! 👋 I'm exploring your pricing plans and would like to learn more about how you can help grow our brand.")}
       primaryLabel="WhatsApp us"
       secondaryHref="/faq"
       secondaryLabel="Read FAQ"
@@ -33,13 +33,22 @@ import { pricingPlans, WHATSAPP_LINK } from "../data/content";
                   {plan.price}
                   <span>{plan.period}</span>
                 </div>
-                <p>{plan.blurb}</p>
-                <ul>
+                <p class="price-blurb">{plan.blurb}</p>
+                <div class="plan-best-for-pill">
+                  <span class="best-for-label">Best for:</span> <strong>{plan.bestFor}</strong>
+                </div>
+                <hr class="price-divider" />
+                <ul class="price-features">
                   {plan.points.map((p) => (
-                    <li>{p}</li>
+                    <li>
+                      <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 5.5L4.5 9L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      {p}
+                    </li>
                   ))}
                 </ul>
-                <a class="pill pill-teal" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                <a class={`pill ${plan.featured ? "pill-yellow" : "pill-teal"}`} href={plan.whatsappLink || WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
                   WhatsApp about {plan.name} <span class="arrow">↗</span>
                 </a>
               </article>
@@ -56,22 +65,45 @@ import { pricingPlans, WHATSAPP_LINK } from "../data/content";
           <h2 class="display-sm">We politely decline these requests</h2>
         </div>
         <div class="problem-list" data-reveal data-reveal-delay="2">
-          <div class="problem-item">
-            <i>×</i>
+          <div class="problem-item decline-card">
+            <div class="policy-icon-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <line x1="9" y1="12" x2="15" y2="12"/>
+              </svg>
+            </div>
             <div>
               <h3>Guaranteed followers or bots</h3>
               <p>We do not sell hollow vanity metrics or spam followers.</p>
             </div>
           </div>
-          <div class="problem-item">
-            <i>×</i>
+          <div class="problem-item decline-card">
+            <div class="policy-icon-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+                <line x1="7" y1="2" x2="7" y2="22"/>
+                <line x1="17" y1="2" x2="17" y2="22"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <line x1="2" y1="7" x2="7" y2="7"/>
+                <line x1="2" y1="17" x2="7" y2="17"/>
+                <line x1="17" y1="17" x2="22" y2="17"/>
+                <line x1="17" y1="7" x2="22" y2="7"/>
+              </svg>
+            </div>
             <div>
               <h3>Ultra cheap low-effort Reels</h3>
               <p>Premium aesthetics and brand credibility require thoughtful production.</p>
             </div>
           </div>
-          <div class="problem-item">
-            <i>×</i>
+          <div class="problem-item decline-card">
+            <div class="policy-icon-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                <line x1="10" y1="12" x2="14" y2="12"/>
+                <line x1="10" y1="16" x2="14" y2="16"/>
+              </svg>
+            </div>
             <div>
               <h3>Free trial only inquiries</h3>
               <p>Ambitious companies start with a scoped, high impact paid month.</p>
@@ -81,6 +113,70 @@ import { pricingPlans, WHATSAPP_LINK } from "../data/content";
       </div>
     </section>
 
-    <ContactBand title="Unsure which plan fits?" lede="WhatsApp your brand Instagram link or website. We will recommend Starter, Momentum, or Scale in plain language." />
+    <ContactBand
+      title="Unsure which plan fits?"
+      lede="WhatsApp your brand Instagram link or website. We will recommend Starter Growth, Growth Pro, or Brand Accelerator in plain language."
+      whatsappText="Hi ScaleUpSocial team! 👋 I'm unsure which pricing plan fits my business best. Here is my brand's Instagram / website: "
+    />
   </main>
 </BaseLayout>
+
+<style>
+  .plan-best-for-pill {
+    font-size: 0.84rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line-soft);
+    color: var(--grey-2);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .price-card.featured .plan-best-for-pill {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #f3f4f6;
+  }
+  .best-for-label {
+    opacity: 0.7;
+  }
+  .price-card.featured li {
+    color: #f1f5f9 !important;
+  }
+  .price-card.featured li svg {
+    color: #facc15 !important;
+  }
+  .price-card.featured .price-blurb {
+    color: #cbd5e1 !important;
+  }
+
+  .decline-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .decline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  }
+  .policy-icon-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 45, 78, 0.05);
+    border: 1px solid rgba(17, 45, 78, 0.12);
+    color: #112D4E;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    transition: all 0.2s ease;
+  }
+  .decline-card:hover .policy-icon-badge {
+    background: #112D4E;
+    color: #facc15;
+    border-color: #112D4E;
+    transform: scale(1.05);
+  }
+</style>
+
