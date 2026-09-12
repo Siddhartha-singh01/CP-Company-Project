@@ -161,7 +161,7 @@ ul {
 
 .pill-teal:hover {
   transform: translateY(-2px);
-  background: #c3a2bb;
+  background: var(--teal-deep);
 }
 
 .pill-ghost {
@@ -186,12 +186,14 @@ ul {
 }
 
 .pill-outline-dark {
-  border: 1px solid var(--line-dark);
-  color: var(--ink);
+  border: 1.5px solid #112D4E;
+  color: #112D4E !important;
+  background: transparent;
 }
 
 .pill-outline-dark:hover {
-  background: rgba(10, 10, 10, 0.04);
+  background: #112D4E;
+  color: #ffffff !important;
 }
 
 /* Cursor */
@@ -455,18 +457,20 @@ ul {
   position: relative;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
+  background: #ffffff !important;
+  color: #112D4E !important;
   padding: 2.25rem 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   overflow: visible;
+  box-shadow: 0 4px 20px rgba(17, 45, 78, 0.04);
 }
 
 .price-card.featured {
-  background: #112D4E;
-  border-color: #112D4E;
-  color: #ffffff;
+  background: #112D4E !important;
+  border-color: #112D4E !important;
+  color: #ffffff !important;
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.15);
   z-index: 1;
 }
@@ -497,11 +501,11 @@ ul {
   letter-spacing: -0.03em;
   line-height: 1.15;
   margin: 0;
-  color: var(--white); /* Default to dark text */
+  color: #112D4E !important;
 }
 
 .price-card.featured h3 {
-  color: #ffffff; /* White text on featured card */
+  color: #ffffff !important;
 }
 
 .price-amount {
@@ -512,32 +516,32 @@ ul {
   display: flex;
   align-items: baseline;
   gap: 0.25rem;
-  color: var(--white);
+  color: #112D4E !important;
 }
 
 .price-card.featured .price-amount {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .price-amount span {
   font-size: 0.95rem;
-  color: var(--grey-1);
+  color: #64748b !important;
   font-family: var(--font-body);
   letter-spacing: 0;
 }
 
 .price-card.featured .price-amount span {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .price-card > p.price-blurb {
-  color: var(--grey-2);
+  color: #475569 !important;
   font-size: 0.92rem;
   min-height: 2.5rem;
 }
 
 .price-card.featured > p.price-blurb {
-  color: #9ca3af;
+  color: #cbd5e1 !important;
 }
 
 .price-divider {
@@ -591,46 +595,66 @@ ul {
 }
 
 .section-paper .price-card {
-  background: #fff;
-  border-color: rgba(10, 10, 10, 0.08);
-  color: var(--white);
+  background: #ffffff !important;
+  border-color: rgba(17, 45, 78, 0.12) !important;
+  color: #112D4E !important;
+}
+
+.section-paper .price-card:not(.featured) h3,
+.section-paper .price-card h3 {
+  color: #112D4E !important;
+}
+
+.section-paper .price-card:not(.featured) .price-amount,
+.section-paper .price-card .price-amount {
+  color: #112D4E !important;
 }
 
 .section-paper .price-card > p.price-blurb,
 .section-paper .price-card li {
-  color: #5c5c59;
+  color: #475569 !important;
 }
 
 .section-paper .price-card.featured {
-  background: #112D4E;
-  color: #ffffff;
-  border-color: #112D4E;
+  background: #112D4E !important;
+  color: #ffffff !important;
+  border-color: #112D4E !important;
 }
 
 .section-paper .price-card.featured > p.price-blurb {
-  color: #cbd5e1;
+  color: #cbd5e1 !important;
 }
 
 .section-paper .price-card.featured li {
-  color: #f1f5f9;
+  color: #f1f5f9 !important;
 }
 
 .section-paper .price-card.featured h3,
 .section-paper .price-card.featured .price-amount {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .section-paper .price-amount span {
-  color: inherit;
-  opacity: 0.7;
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+.section-paper .price-card.featured .price-amount span {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .section-paper .price-card li svg {
-  color: var(--teal);
+  color: var(--teal) !important;
 }
 
 .section-paper .price-card.featured li svg {
-  color: #facc15;
+  color: #facc15 !important;
+}
+
+.section-paper .price-card .pill-outline-dark {
+  border: 1.5px solid #112D4E !important;
+  color: #112D4E !important;
+  background: #ffffff !important;
 }
 
 .pill-yellow {
@@ -916,7 +940,7 @@ ul {
 
 .reel-stats strong {
   display: block;
-  color: var(--ink);
+  color: #112D4E !important;
   font-size: 0.85rem;
   margin-bottom: 0.1rem;
 }
@@ -938,7 +962,7 @@ ul {
 }
 
 .floating-chip strong {
-  color: var(--ink);
+  color: #112D4E !important;
 }
 
 .chip-a {
@@ -1239,6 +1263,28 @@ ul {
 .section-paper h2,
 .section-paper h3 {
   color: #ffffff;
+}
+
+.section-paper .service-card h3,
+.section-paper .case-card:not(.featured) h3,
+.section-paper .price-card:not(.featured) h3,
+.section-paper .decline-card h3 {
+  color: #112D4E !important;
+}
+
+.section-paper .service-card p,
+.section-paper .case-card:not(.featured) p,
+.section-paper .price-card:not(.featured) > p.price-blurb,
+.section-paper .decline-card p {
+  color: #475569 !important;
+}
+
+.section-paper .case-card:not(.featured) .case-metrics strong {
+  color: #112D4E !important;
+}
+
+.section-paper .case-card:not(.featured) .case-metrics span {
+  color: #64748b !important;
 }
 
 .section-paper .eyebrow {

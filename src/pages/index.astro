@@ -204,12 +204,12 @@ import ProofOfWork from "../components/ProofOfWork.astro";
     <!-- Verified Proof of Work Section -->
     <ProofOfWork id="proof-of-work" />
 
-    <section class="section section-paper" id="pricing-preview" style="background: #F9F7F7;">
+    <section class="section" id="pricing-preview" style="background: #F9F7F7;">
       <div class="container">
         <div class="pricing-top-row" data-reveal>
           <div class="pricing-top-left">
             <p class="eyebrow" style="color: var(--teal); margin-bottom: 1rem;">STRAIGHTFORWARD INVESTMENT</p>
-            <h2 class="display-sm" style="color: var(--ink); margin-bottom: 1.5rem; line-height: 1.05;">
+            <h2 class="display-sm" style="color: var(--white); margin-bottom: 1.5rem; line-height: 1.05;">
               Good work, without the <br/><span style="color: var(--teal);">agency tax.</span>
             </h2>
           </div>
@@ -223,11 +223,11 @@ import ProofOfWork from "../components/ProofOfWork.astro";
               <article class={`price-card ${plan.featured ? "featured" : ""}`} data-reveal data-reveal-delay={String(i + 1)}>
                 {plan.badge && <span class="price-badge">{plan.badge}</span>}
                 <h3>{plan.name}</h3>
-                <p class="price-blurb">{plan.blurb}</p>
                 <div class="price-amount">
                   {plan.price}
                   <span class="price-period">{plan.period}</span>
                 </div>
+                <p class="price-blurb">{plan.blurb}</p>
                 <hr class="price-divider" />
                 <ul class="price-features">
                   {plan.points.map((p) => (
