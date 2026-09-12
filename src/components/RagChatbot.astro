@@ -270,7 +270,7 @@ const dynamicKnowledge = [
   }
 </style>
 
-<script define:vars={{ dynamicKnowledge }}>
+<script define:vars={{ dynamicKnowledge, WHATSAPP_LINK }}>
   // Simple Client-Side "RAG" Knowledge Base
   const baseKnowledge = [
     {
@@ -283,7 +283,7 @@ const dynamicKnowledge = [
     },
     {
       keywords: ["contact", "whatsapp", "call", "reach"],
-      answer: "You can reach us directly via [WhatsApp](https://wa.me/917357227345) or [Book a Meeting](https://calendly.com/scaleupsocial7/30min). We offer direct support to all our clients!"
+      answer: `You can reach us directly via [WhatsApp](${WHATSAPP_LINK}) or [Book a Meeting](https://calendly.com/scaleupsocial7/30min). We offer direct support to all our clients!`
     },
     {
       keywords: ["results", "reviews", "case study", "success"],

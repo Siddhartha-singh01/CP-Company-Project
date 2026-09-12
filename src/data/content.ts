@@ -1,10 +1,14 @@
 export const WHATSAPP_NUMBER = "+91 7357227345";
-export const WHATSAPP_LINK = "https://wa.me/917357227345";
+export const WHATSAPP_BASE_URL = "https://wa.me/917357227345";
 
 export function getWhatsAppLink(message?: string): string {
-  if (!message) return WHATSAPP_LINK;
+  if (!message) return WHATSAPP_BASE_URL;
   return `https://wa.me/917357227345?text=${encodeURIComponent(message)}`;
 }
+
+// General inquiry message used for all generic "WhatsApp us" buttons across the site
+export const GENERAL_WHATSAPP_MESSAGE = "Hello ScaleUpSocial! 👋 What services do you provide, and how can you help grow our brand?";
+export const WHATSAPP_LINK = getWhatsAppLink(GENERAL_WHATSAPP_MESSAGE);
 
 export const CALENDLY_LINK = "https://calendly.com/scaleupsocial7/30min";
 export const SITE_NAME = "ScaleUpSocial";
