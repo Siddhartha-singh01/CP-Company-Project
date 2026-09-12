@@ -144,139 +144,173 @@ const { className = '' } = Astro.props;
   // --- Init ---
   var container = document.getElementById('scanner-bg');
   if (container) {
-    // Gold theme colors
-    var c1 = hexToRgb('#112D4E');
-    var c2 = hexToRgb('#3F72AF');
-    var c3 = hexToRgb('#FFFFFF');
+    try {
+      // Gold theme colors
+      var c1 = hexToRgb('#112D4E');
+      var c2 = hexToRgb('#3F72AF');
+      var c3 = hexToRgb('#FFFFFF');
 
-    var renderer = new Renderer({
-      webgl: 2,
-      alpha: true,
-      premultipliedAlpha: true,
-      antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+      // Processing power optimization: limit DPR to 1 on mobile/tablet to conserve GPU and battery
+      var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (window.innerWidth && window.innerWidth < 800);
+      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
 
-    var gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0);
-    var canvas = gl.canvas;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.display = 'block';
-    container.appendChild(canvas);
+      var renderer = new Renderer({
+        webgl: 2,
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: false,
+        dpr: dpr,
+        powerPreference: 'low-power'
+      });
 
-    var geometry = new Triangle(gl);
+      var gl = renderer.gl;
+      gl.clearColor(0, 0, 0, 0);
+      var canvas = gl.canvas;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.display = 'block';
+      container.appendChild(canvas);
 
-    var program = new Program(gl, {
-      vertex: vertex,
-      fragment: fragment,
-      uniforms: {
-        iTime: { value: 0 },
-        iResolution: { value: new Float32Array([1, 1]) },
-        uSpeed: { value: 0.5 },
-        uSweepSpeed: { value: 0.25 },
-        uSweepWidth: { value: 1.6 },
-        uSweepFalloff: { value: 6.0 },
-        uScale: { value: 1.5 },
-        uFrequency: { value: 2.0 },
-        uRipple: { value: 0.22 },
-        uBandDensity: { value: 11.0 },
-        uLineSharpness: { value: 5.5 },
-        uGlow: { value: 0.15 },
-        uColorSpread: { value: 0.7 },
-        uBrightness: { value: 1.0 },
-        uContrast: { value: 1.15 },
-        uSoftness: { value: 1.4 },
-        uVignette: { value: 0.45 },
-        uOpacity: { value: 0.85 },
-        uScanline: { value: 1.0 },
-        uGrain: { value: 1.0 },
-        uGrainIntensity: { value: 0.05 },
-        uDirection: { value: 0.0 },
-        uMouse: { value: new Float32Array([0.5, 0.5]) },
-        uMouseEnabled: { value: 1.0 },
-        uMouseRadius: { value: 0.5 },
-        uMouseStrength: { value: 0.5 },
-        uMouseActive: { value: 0.0 },
-        uColor1: { value: new Float32Array(c1) },
-        uColor2: { value: new Float32Array(c2) },
-        uColor3: { value: new Float32Array(c3) }
+      var geometry = new Triangle(gl);
+
+      var program = new Program(gl, {
+        vertex: vertex,
+        fragment: fragment,
+        uniforms: {
+          iTime: { value: 0 },
+          iResolution: { value: new Float32Array([1, 1]) },
+          uSpeed: { value: 0.5 },
+          uSweepSpeed: { value: 0.25 },
+          uSweepWidth: { value: 1.6 },
+          uSweepFalloff: { value: 6.0 },
+          uScale: { value: 1.5 },
+          uFrequency: { value: 2.0 },
+          uRipple: { value: 0.22 },
+          uBandDensity: { value: 11.0 },
+          uLineSharpness: { value: 5.5 },
+          uGlow: { value: 0.15 },
+          uColorSpread: { value: 0.7 },
+          uBrightness: { value: 1.0 },
+          uContrast: { value: 1.15 },
+          uSoftness: { value: 1.4 },
+          uVignette: { value: 0.45 },
+          uOpacity: { value: 0.85 },
+          uScanline: { value: 1.0 },
+          uGrain: { value: 1.0 },
+          uGrainIntensity: { value: 0.05 },
+          uDirection: { value: 0.0 },
+          uMouse: { value: new Float32Array([0.5, 0.5]) },
+          uMouseEnabled: { value: isMobile ? 0.0 : 1.0 },
+          uMouseRadius: { value: 0.5 },
+          uMouseStrength: { value: 0.5 },
+          uMouseActive: { value: 0.0 },
+          uColor1: { value: new Float32Array(c1) },
+          uColor2: { value: new Float32Array(c2) },
+          uColor3: { value: new Float32Array(c3) }
+        }
+      });
+
+      var mesh = new Mesh(gl, { geometry: geometry, program: program });
+
+      function setSize() {
+        if (!container) return;
+        var rect = container.getBoundingClientRect();
+        var w = Math.max(1, Math.floor(rect.width));
+        var h = Math.max(1, Math.floor(rect.height));
+        renderer.setSize(w, h);
+        program.uniforms.iResolution.value[0] = gl.drawingBufferWidth;
+        program.uniforms.iResolution.value[1] = gl.drawingBufferHeight;
+        renderer.render({ scene: mesh });
       }
-    });
 
-    var mesh = new Mesh(gl, { geometry: geometry, program: program });
+      var ro = new ResizeObserver(setSize);
+      ro.observe(container);
+      setSize();
 
-    function setSize() {
-      var rect = container.getBoundingClientRect();
-      var w = Math.max(1, Math.floor(rect.width));
-      var h = Math.max(1, Math.floor(rect.height));
-      renderer.setSize(w, h);
-      program.uniforms.iResolution.value[0] = gl.drawingBufferWidth;
-      program.uniforms.iResolution.value[1] = gl.drawingBufferHeight;
-      renderer.render({ scene: mesh });
-    }
+      if (reduceMotion) {
+        // Render one static frame and exit to save CPU/GPU completely
+        renderer.render({ scene: mesh });
+        return;
+      }
 
-    var ro = new ResizeObserver(setSize);
-    ro.observe(container);
-    setSize();
+      var currentMouse = [0.5, 0.5];
+      var targetMouse = [0.5, 0.5];
+      var mouseActive = 0;
+      var targetMouseActive = 0;
 
-    var currentMouse = [0.5, 0.5];
-    var targetMouse = [0.5, 0.5];
-    var mouseActive = 0;
-    var targetMouseActive = 0;
+      if (!isMobile) {
+        canvas.addEventListener('mousemove', function(e) {
+          var rect = canvas.getBoundingClientRect();
+          targetMouse = [(e.clientX - rect.left) / rect.width, 1.0 - (e.clientY - rect.top) / rect.height];
+          targetMouseActive = 1;
+        }, { passive: true });
+        canvas.addEventListener('mouseleave', function() {
+          targetMouseActive = 0;
+        }, { passive: true });
+      }
 
-    canvas.addEventListener('mousemove', function(e) {
-      var rect = canvas.getBoundingClientRect();
-      targetMouse = [(e.clientX - rect.left) / rect.width, 1.0 - (e.clientY - rect.top) / rect.height];
-      targetMouseActive = 1;
-    });
-    canvas.addEventListener('mouseleave', function() {
-      targetMouseActive = 0;
-    });
+      var raf = 0;
+      var isVisible = true;
+      var isPageVisible = !document.hidden;
+      var contextLost = false;
+      var t0 = performance.now();
 
-    var raf = 0;
-    var isVisible = true;
-    var isPageVisible = !document.hidden;
-    var t0 = performance.now();
+      function loop(t) {
+        if (contextLost) return;
+        program.uniforms.iTime.value = (t - t0) * 0.001;
 
-    function loop(t) {
-      program.uniforms.iTime.value = (t - t0) * 0.001;
+        if (!isMobile) {
+          currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+          currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+          program.uniforms.uMouse.value[0] = currentMouse[0];
+          program.uniforms.uMouse.value[1] = currentMouse[1];
+          mouseActive += 0.05 * (targetMouseActive - mouseActive);
+          program.uniforms.uMouseActive.value = mouseActive;
+        }
 
-      currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
-      currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
-      program.uniforms.uMouse.value[0] = currentMouse[0];
-      program.uniforms.uMouse.value[1] = currentMouse[1];
-      mouseActive += 0.05 * (targetMouseActive - mouseActive);
-      program.uniforms.uMouseActive.value = mouseActive;
-
-      renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(loop);
-    }
-
-    function tryStart() {
-      if (isVisible && isPageVisible && raf === 0) {
+        renderer.render({ scene: mesh });
         raf = requestAnimationFrame(loop);
       }
-    }
-    function tryStop() {
-      if (raf !== 0) {
-        cancelAnimationFrame(raf);
-        raf = 0;
+
+      function tryStart() {
+        if (isVisible && isPageVisible && !contextLost && raf === 0) {
+          raf = requestAnimationFrame(loop);
+        }
       }
+      function tryStop() {
+        if (raf !== 0) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      }
+
+      canvas.addEventListener('webglcontextlost', function(e) {
+        e.preventDefault();
+        contextLost = true;
+        tryStop();
+      }, false);
+
+      canvas.addEventListener('webglcontextrestored', function() {
+        contextLost = false;
+        setSize();
+        tryStart();
+      }, false);
+
+      var io = new IntersectionObserver(function(entries) {
+        isVisible = entries[0].isIntersecting;
+        isVisible ? tryStart() : tryStop();
+      }, { threshold: 0 });
+      io.observe(container);
+
+      document.addEventListener('visibilitychange', function() {
+        isPageVisible = !document.hidden;
+        isPageVisible ? tryStart() : tryStop();
+      });
+
+      tryStart();
+    } catch (err) {
+      console.warn('[Scanner] WebGL initialization skipped or unsupported:', err);
     }
-
-    var io = new IntersectionObserver(function(entries) {
-      isVisible = entries[0].isIntersecting;
-      isVisible ? tryStart() : tryStop();
-    }, { threshold: 0 });
-    io.observe(container);
-
-    document.addEventListener('visibilitychange', function() {
-      isPageVisible = !document.hidden;
-      isPageVisible ? tryStart() : tryStop();
-    });
-
-    tryStart();
-    console.log('[Scanner] WebGL initialized successfully');
   }
 </script>

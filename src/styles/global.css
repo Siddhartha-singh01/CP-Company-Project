@@ -54,13 +54,15 @@ img {
 a {
   color: inherit;
   text-decoration: none;
+  touch-action: manipulation;
 }
 
-button {
+button, [role="button"], input, select, textarea {
   font: inherit;
   border: none;
   background: none;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 ul {
@@ -224,6 +226,8 @@ ul {
   border: 1px solid var(--line);
   border-radius: 999px;
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transform: translateZ(0);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
 }
 
@@ -589,8 +593,12 @@ ul {
 }
 
 @media (max-width: 899px) {
+  /* Natural mobile card order: 1. Starter Growth, 2. Growth Pro, 3. Brand Accelerator */
+  .price-card {
+    order: 0;
+  }
   .price-card.featured {
-    order: -1;
+    order: 0;
   }
 }
 
@@ -717,6 +725,8 @@ ul {
   z-index: 999;
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transform: translateZ(0);
   padding: 6.5rem var(--page) 2rem;
   flex-direction: column;
   gap: 0.35rem;
@@ -3472,6 +3482,35 @@ html, body {
 img, video, iframe, canvas {
   max-width: 100%;
   height: auto;
+}
+
+/* Device Processing Power & Battery Optimization */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hardware Compositing Layers for Fluid 60/120fps Scrolling */
+.site-header,
+.proof-lightbox,
+.rag-chatbot-window,
+.scroll-expand__stage {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Content Visibility: Skip layout calculation on off-screen sections until scrolled into view */
+#proof-of-work,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
 }
 
 
