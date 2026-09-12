@@ -690,6 +690,10 @@ ul {
   border: 1px solid var(--line);
   color: var(--white);
   margin-left: 0.25rem;
+  background: transparent;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  z-index: 1001;
 }
 
 .nav-toggle span,
@@ -698,9 +702,9 @@ ul {
   display: block;
   width: 16px;
   height: 1.5px;
-  background: currentColor;
+  background: #112D4E;
   position: relative;
-  transition: 0.25s;
+  transition: transform 0.25s ease, background 0.2s ease, top 0.25s ease;
 }
 
 .nav-toggle span::before,
@@ -718,30 +722,138 @@ ul {
   top: 5px;
 }
 
-.mobile-nav {
+/* Morph to X when open */
+.nav-toggle.is-active {
+  background: rgba(17, 45, 78, 0.08);
+  border-color: rgba(17, 45, 78, 0.2);
+}
+
+.nav-toggle.is-active span {
+  background: transparent;
+}
+
+.nav-toggle.is-active span::before {
+  top: 0;
+  transform: rotate(45deg);
+  background: #112D4E;
+}
+
+.nav-toggle.is-active span::after {
+  top: 0;
+  transform: rotate(-45deg);
+  background: #112D4E;
+}
+
+/* Backdrop scrim */
+.mobile-nav-backdrop {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 999;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  transform: translateZ(0);
-  padding: 6.5rem var(--page) 2rem;
+  z-index: 998;
+  background: rgba(17, 45, 78, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.mobile-nav-backdrop.is-open {
+  display: block;
+  opacity: 1;
+}
+
+/* Compact Floating Mobile Nav Sheet */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: calc(1.25rem + 54px + 8px);
+  left: max(0.85rem, var(--page));
+  right: max(0.85rem, var(--page));
+  max-width: 440px;
+  margin-inline: auto;
+  z-index: 1000;
+  background: #ffffff;
+  border: 1px solid rgba(17, 45, 78, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 20px 45px rgba(17, 45, 78, 0.16), 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 0.85rem;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.65rem;
+  transform: translateY(-8px) scale(0.98);
+  opacity: 0;
+  transition: transform 0.22s var(--ease-out), opacity 0.22s var(--ease-out);
+  pointer-events: none;
 }
 
 .mobile-nav.is-open {
   display: flex;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.mobile-nav a {
+.mobile-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.62rem 0.8rem;
+  border-radius: 12px;
   font-family: var(--font-display);
-  font-size: 1.8rem;
-  letter-spacing: -0.03em;
-  padding: 0.7rem 0;
-  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #112D4E !important;
+  background: #F9F7F7;
+  border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+  text-decoration: none;
+}
+
+.mobile-nav-link .link-chevron {
+  color: #8B8B8B;
+  transition: transform 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
+  background: #DBE2EF;
+  color: #112D4E !important;
+  transform: translateX(2px);
+}
+
+.mobile-nav-link:hover .link-chevron {
+  transform: translateX(2px);
+  color: var(--teal);
+}
+
+.mobile-nav-link.is-active {
+  background: rgba(63, 114, 175, 0.12);
+  color: var(--teal) !important;
+  border-color: rgba(63, 114, 175, 0.25);
+  font-weight: 700;
+}
+
+.mobile-nav-link.is-active .link-chevron {
+  color: var(--teal);
+}
+
+.mobile-nav-cta-wrap {
+  border-top: 1px solid rgba(17, 45, 78, 0.08);
+  padding-top: 0.65rem;
+}
+
+.mobile-nav-cta {
+  width: 100%;
+  justify-content: center;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.88rem !important;
+  border-radius: 12px !important;
 }
 
 @media (min-width: 900px) {
@@ -749,8 +861,10 @@ ul {
     display: flex;
   }
 
-  .nav-toggle {
-    display: none;
+  .nav-toggle,
+  .mobile-nav,
+  .mobile-nav-backdrop {
+    display: none !important;
   }
 }
 
@@ -2240,10 +2354,6 @@ video {
   .cta-panel {
     border-radius: 20px;
     padding: 1.35rem;
-  }
-
-  .mobile-nav a {
-    font-size: 1.45rem;
   }
 }
 

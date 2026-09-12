@@ -145,16 +145,32 @@ const orgSchema = {
       </nav>
     </header>
 
-    <div class="mobile-nav" id="mobile-nav">
-      {
-        navLinks.map((link) => (
-          <a href={link.href} class={activePath === link.href ? "is-active" : undefined}>
-            {link.label}
-          </a>
-        ))
-      }
-      <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
-      <a href="/contact">Contact</a>
+    <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" aria-hidden="true"></div>
+
+    <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile Navigation">
+      <div class="mobile-nav-grid">
+        {
+          navLinks.map((link) => (
+            <a href={link.href} class={`mobile-nav-link ${activePath === link.href ? "is-active" : ""}`}>
+              <span>{link.label}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="link-chevron" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          ))
+        }
+        <a href="/contact" class={`mobile-nav-link ${activePath === "/contact" ? "is-active" : ""}`}>
+          <span>Contact</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="link-chevron" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      </div>
+      <div class="mobile-nav-cta-wrap">
+        <a class="pill pill-teal mobile-nav-cta" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+          WhatsApp us <span class="arrow">↗</span>
+        </a>
+      </div>
     </div>
 
     <slot />
@@ -241,15 +257,32 @@ const orgSchema = {
 
       const toggle = document.getElementById("nav-toggle");
       const mobileNav = document.getElementById("mobile-nav");
+      const backdrop = document.getElementById("mobile-nav-backdrop");
+
+      const closeNav = () => {
+        mobileNav?.classList.remove("is-open");
+        backdrop?.classList.remove("is-open");
+        toggle?.classList.remove("is-active");
+        toggle?.setAttribute("aria-expanded", "false");
+      };
+
       toggle?.addEventListener("click", () => {
-        const open = mobileNav?.classList.toggle("is-open");
-        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        const isOpen = mobileNav?.classList.toggle("is-open");
+        backdrop?.classList.toggle("is-open", isOpen);
+        toggle.classList.toggle("is-active", isOpen);
+        toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       });
+
+      backdrop?.addEventListener("click", closeNav);
+
       mobileNav?.querySelectorAll("a").forEach((a) => {
-        a.addEventListener("click", () => {
-          mobileNav.classList.remove("is-open");
-          toggle?.setAttribute("aria-expanded", "false");
-        });
+        a.addEventListener("click", closeNav);
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileNav?.classList.contains("is-open")) {
+          closeNav();
+        }
       });
 
       const reveals = document.querySelectorAll("[data-reveal]");
